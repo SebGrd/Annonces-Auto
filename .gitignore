@@ -1,5 +1,7 @@
 #jetbrains ide file
+.idea/*
 .idea/
+.idea
 
 # dotenv environment variables file
 .env
