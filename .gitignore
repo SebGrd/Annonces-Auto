@@ -1,3 +1,6 @@
+#jetbrains ide file
+.idea
+
 # dotenv environment variables file
 .env
 .env.test
