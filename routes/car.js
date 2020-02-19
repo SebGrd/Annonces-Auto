@@ -1,6 +1,7 @@
 const express = require('express');
 const car = express.Router();
 const utils = require('./../utils');
+const database = require('./../middlewares/mongoose');
 
 // Ajout d'une voiture
 car.post('/:id', utils.isAdmin, (req, res) => {
@@ -10,8 +11,19 @@ car.post('/:id', utils.isAdmin, (req, res) => {
 
 
 car.get('/:id', (req, res) => {
-    res.status(200);
-    res.send(req.params.id);
+    database.carModel.find({brand: req.params.id}, (err, cars) => {
+        if (err) { //SI ERREUR INTERNE
+            console.log(err);
+            res.status(500)
+                .json({"error": "Internal server error"});
+        } else if (cars.length){ //SINON SI ELEMENT TROUVED
+            res.status(200);
+            res.send(cars);
+        } else{ //SINON AUCUN ELEMENT TROUVED
+            res.status(404)
+                .json({ "message" : "No car found for : " + req.params.id})
+        }
+    });
 });
 
 car.delete('/:id', utils.isAdmin, (req, res) => {
