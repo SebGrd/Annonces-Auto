@@ -9,8 +9,9 @@ car.post('/:id', utils.isAdmin, (req, res) => {
     res.send(req.params.id);
 });
 
-
+// get des voitures
 car.get('/', (req, res) => {
+
     if (req.query.brand && !req.query.model){
         database.carModel.find({brand: req.query.brand}, (err, cars) => {
             if (err) { //SI ERREUR INTERNE
@@ -26,6 +27,7 @@ car.get('/', (req, res) => {
             }
         });
     }
+
     if (req.query.model && !req.query.brand){
         database.carModel.find({model: req.query.model}, (err, cars) => {
             if (err) { //SI ERREUR INTERNE
@@ -41,6 +43,7 @@ car.get('/', (req, res) => {
             }
         });
     }
+
     if (req.query.brand && req.query.model){
         database.carModel.find({brand: req.query.brand, model: req.query.model}, (err, cars) => {
             if (err) { //SI ERREUR INTERNE
@@ -56,6 +59,7 @@ car.get('/', (req, res) => {
             }
         });
     }
+
 });
 
 car.delete('/:id', utils.isAdmin, (req, res) => {
