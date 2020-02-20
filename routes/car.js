@@ -10,8 +10,18 @@ car.post('/:id', utils.isAdmin, (req, res) => {
 });
 
 
-car.get('/:id', (req, res) => {
-    database.carModel.find({brand: req.params.id}, (err, cars) => {
+car.get('/', (req, res) => {
+    if (req.query.brand){
+        console.log(req.query.brand);
+    } else {
+        console.log('No brand given')
+    }
+    if (req.query.model){
+        console.log(req.query.model);
+    } else {
+        console.log('No model given')
+    }
+    database.carModel.find({brand: req.query.brand}, (err, cars) => {
         if (err) { //SI ERREUR INTERNE
             console.log(err);
             res.status(500)
@@ -21,7 +31,7 @@ car.get('/:id', (req, res) => {
             res.send(cars);
         } else{ //SINON AUCUN ELEMENT TROUVED
             res.status(404)
-                .json({ "message" : "No car found for : " + req.params.id})
+                .json({ "message" : "No car found for : " + req.query.brand})
         }
     });
 });
