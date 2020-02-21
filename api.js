@@ -9,7 +9,7 @@ const app = express();
 const parser = require('body-parser');
 const logger = require('morgan');
 
-const database = require('./middlewares/mongoose');
+const database = require('./utils/db');
 
 const car = require('./routes/car');
 const annonce = require('./routes/annonces');

@@ -26,9 +26,3 @@ exports.connect = () => {
             console.log(error);
         });
 };
-
-exports.getCar = (req, res, next) => {
-
-
-
-};
