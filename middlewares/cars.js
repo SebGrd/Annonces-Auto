@@ -29,7 +29,7 @@ exports.getCar = (req, res, next) => {
             res.json(cars);
         } else{ //SINON AUCUN ELEMENT TROUVED
             res.status(404)
-                .json({ "message" : "No car found for : " + req.query.brand}) //@todo return undefined
+                .json({ "message" : "No car found for : " + JSON.stringify(objectQuery)})
         }
     })
 
