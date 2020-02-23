@@ -3,8 +3,6 @@ const database = require('./../utils/db');
 /** retourne les voiutres */
 exports.getCar = (req, res, next) => {
 
-    let objectQuery = {}; //Création de l'objet de retour
-
     /**
      * Class qui gère les paramètres de la recherche
      */
@@ -24,15 +22,16 @@ exports.getCar = (req, res, next) => {
 
     console.log(newQuery);
 
-
     database.carModel.find(newQuery, (err, cars) => {
         if (err) { //SI ERREUR INTERNE
             console.log(err);
             res.status(500)
                 .json({"error": "Internal server error"});
+
         } else if (cars.length){ //SINON SI ELEMENT TROUVED
             req.cars = cars;
             next();
+
         } else{ //SINON AUCUN ELEMENT TROUVED
             res.status(404)
                 .json({ "message" : "No car found for : " + JSON.stringify(newQuery)})
