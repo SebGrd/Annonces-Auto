@@ -1,35 +1,41 @@
 const database = require('./../utils/db');
 
+/** retourne les voiutres */
 exports.getCar = (req, res, next) => {
 
     let objectQuery = {}; //Création de l'objet de retour
 
-    if (req.query.brand && !req.query.model){ //Si y'a que la marque :
-        objectQuery.brand = req.query.brand; //Ajout de la marque
+    /**
+     * Class qui gère les paramètres de la recherche
+     */
+    class carQuery {
+        constructor(id, brand, model) {
+            if (id){this.id = id}
+            if (brand){this.brand = brand}
+            if (model){this.model = model}
+        }
     }
 
-    if (req.query.model && !req.query.brand){ //Si y'a que le modèle :
-        objectQuery.model = req.query.model; //Ajout du modèle
-    }
+    /**
+     * Création du nouvel objet qui contient les paramètres
+     * @type {carQuery}
+     */
+    let newQuery = new carQuery(req.query.id, req.query.brand, req.query.model);
 
-    if (req.query.brand && req.query.model){ //Si y'a la marque et le modèle :
-        objectQuery.brand = req.query.brand; //Ajout de la marque
-        objectQuery.model = req.query.model; //Ajout du modeèle la marque
-    }
+    console.log(newQuery);
 
-    console.log(objectQuery);
 
-    database.carModel.find(objectQuery, (err, cars) => {
+    database.carModel.find(newQuery, (err, cars) => {
         if (err) { //SI ERREUR INTERNE
             console.log(err);
             res.status(500)
                 .json({"error": "Internal server error"});
         } else if (cars.length){ //SINON SI ELEMENT TROUVED
-            res.status(200);
-            res.json(cars);
+            req.cars = cars;
+            next();
         } else{ //SINON AUCUN ELEMENT TROUVED
             res.status(404)
-                .json({ "message" : "No car found for : " + JSON.stringify(objectQuery)})
+                .json({ "message" : "No car found for : " + JSON.stringify(newQuery)})
         }
     })
 

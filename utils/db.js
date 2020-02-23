@@ -6,6 +6,7 @@ const logOk = clc.green.bold;
 const Car = mongoose.model(
     'Car',
     {
+        _id: String,
         brand: String,
         model: String
     }
