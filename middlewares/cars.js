@@ -1,18 +1,20 @@
 const database = require('./../utils/db');
 
-/** retourne les voiutres */
-exports.getCar = (req, res, next) => {
-
-    /**
-     * Class qui gère les paramètres de la recherche
-     */
-    class carQuery {
-        constructor(id, brand, model) {
-            if (id){this.id = id}
-            if (brand){this.brand = brand}
-            if (model){this.model = model}
-        }
+/***
+ * Car params
+ */
+class carQuery {
+    constructor(id, brand, model) {
+        if (id){this._id = id}
+        if (brand){this.brand = brand}
+        if (model){this.model = model}
     }
+}
+
+
+//Return cars
+exports.getCar = (req, res, next) => {
+    console.log('middleWare: getCar');
 
     /**
      * Création du nouvel objet qui contient les paramètres
@@ -37,6 +39,41 @@ exports.getCar = (req, res, next) => {
                 .json({ "message" : "No car found for : " + JSON.stringify(newQuery)})
         }
     })
+
+
+};
+
+//Insert car
+exports.postCar = (req, res, next) => {
+    console.log('middleWare: postCar');
+
+
+    if (req.query.brand && req.query.model){
+        let newQuery = new carQuery(req.query.brand, req.query.model);
+
+        console.log(newQuery);
+
+        let newCar = new database.carModel(newQuery);
+
+        newCar.save( (err, car) => {
+            if (err) { //SI ERREUR INTERNE
+                console.log('err new car');
+                console.log(err);
+                res.status(500)
+                    .json({"error": "Internal server error"});
+
+            } else { //SINON SI ELEMENT TROUVED
+                console.log(car);
+                req.car = car;
+                next();
+            }
+        })
+
+    } else{
+        res.status(500);
+        res.json({"message": "Not all required params given"})
+    }
+
 
 
 };
