@@ -16,7 +16,6 @@ exports.carModel = Car;
 const Annonce = mongoose.model(
     'Annonce',
     {
-        _id: String,
         userId: String,
         content: String,
         price: Number,
