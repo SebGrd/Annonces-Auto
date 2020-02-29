@@ -15,8 +15,9 @@ const car = require('./routes/car');
 const annonce = require('./routes/annonces');
 
 app.use(logger('dev'));
-app.use(express.static(__dirname + 'public'));
 app.use(parser.json());
+app.use(parser.urlencoded({extended:true}));
+app.use(express.static(__dirname + 'public'));
 
 app.get('/', (req, res, next) => {
     res.status(200);

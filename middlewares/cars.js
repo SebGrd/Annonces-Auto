@@ -4,8 +4,7 @@ const database = require('./../utils/db');
  * Car params
  */
 class carQuery {
-    constructor(id, brand, model) {
-        if (id){this._id = id}
+    constructor(brand, model) {
         if (brand){this.brand = brand}
         if (model){this.model = model}
     }
@@ -48,8 +47,8 @@ exports.postCar = (req, res, next) => {
     console.log('middleWare: postCar');
 
 
-    if (req.query.brand && req.query.model){
-        let newQuery = new carQuery(req.query.brand, req.query.model);
+    if (req.body.brand && req.body.model){
+        let newQuery = new carQuery(req.body.brand, req.body.model);
 
         console.log(newQuery);
 
