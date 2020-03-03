@@ -46,7 +46,8 @@ const User = mongoose.model(
         surname: String,
         mail: String,
         phone: Number,
-        professional: Boolean
+        professional: Boolean,
+        zip: Number
     }
 );
 
