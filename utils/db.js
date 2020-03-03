@@ -38,6 +38,18 @@ const Annonce = mongoose.model(
     }
 );
 
+const User = mongoose.model(
+    'User',
+    {
+        username: String,
+        name: String,
+        surname: String,
+        mail: String,
+        phone: Number,
+        professional: Boolean
+    }
+);
+
 exports.connect = () => {
     mongoose.connect(
         'mongodb+srv://' + process.env.MONGOUSER + ':' + process.env.MONGOPASS + '@' + process.env.MONGOURL + '/' + process.env.MONGO_DB_CARS,
