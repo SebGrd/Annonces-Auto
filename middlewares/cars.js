@@ -1,10 +1,4 @@
 const database = require('./../utils/db');
-const mongoose = require('mongoose');
-
-/***
- * Car params
- */
-
 
 //Return cars
 exports.getCar = (req, res, next) => {
