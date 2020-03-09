@@ -41,7 +41,6 @@ exports.postCar = (req, res, next) => {
     let newCar = new database.carModel(car);
     newCar.save()
         .then((car) => {
-            console.log(car);
             req.car = car;
             next();
         })
@@ -60,7 +59,6 @@ exports.deleteCar = (req, res, next) => {
 
         database.carModel.findByIdAndDelete(req.params.id)
             .then((car) => {
-                console.log(car);
                 req.cars = car;
                 next();
             })
@@ -79,7 +77,6 @@ exports.deleteCar = (req, res, next) => {
 
 //UPDATE CAR
 exports.updateCar = (req, res, next) => {
-    console.log('middleWare: updateCar');
 
     if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) { //SI OBJECT ID
 
@@ -89,10 +86,13 @@ exports.updateCar = (req, res, next) => {
                 car.model = req.body.model ? req.body.model : car.model;
                 car.save()
                     .then(() => {
-                        console.log('Car updated : ' + car);
+                        req.car = car;
+                        next();
                     })
                     .catch((err) => {
-                        console.log(err)
+                        console.log(err);
+                        res.status(500);
+                        res.json({"error": "Internal server error"});
                     });
 
                 req.cars = car;
