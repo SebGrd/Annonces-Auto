@@ -16,7 +16,6 @@ class carQuery {
 }
 
 
-
 //Return cars
 exports.getCar = (req, res, next) => {
 
@@ -26,7 +25,7 @@ exports.getCar = (req, res, next) => {
     req.query.model ? car.model = req.query.model : null;
 
     database.carModel.find(car)
-        .then((cars)=>{
+        .then((cars) => {
             if (cars.length) { //SI ELEMENT TROUVED
                 req.cars = cars;
                 next();
@@ -44,34 +43,29 @@ exports.getCar = (req, res, next) => {
 
 //Insert car
 exports.postCar = (req, res, next) => {
-    console.log('middleWare: postCar');
 
-
+    let car = {};
     if (req.body.brand && req.body.model) {
-        let newQuery = new carQuery(req.body.brand, req.body.model);
-
-        console.log(newQuery);
-
-        let newCar = new database.carModel(newQuery);
-
-        newCar.save((err, car) => {
-            if (err) { //SI ERREUR INTERNE
-                console.log('err new car');
-                console.log(err);
-                res.status(500)
-                    .json({"error": "Internal server error"});
-
-            } else { //SINON SI ELEMENT TROUVED
-                console.log(car);
-                req.car = car;
-                next();
-            }
-        })
-
+        car.brand = req.body.brand;
+        car.model = req.body.model;
     } else {
         res.status(500);
-        res.json({"message": "Not all required params given"})
+        res.json({"message": "Not all required params given"});
+        return null;
     }
+
+    let newCar = new database.carModel(car);
+    newCar.save()
+        .then((car)=>{
+            console.log(car);
+            req.car = car;
+            next();
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500);
+            res.json({"error": "Internal server error"});
+        })
 };
 
 
