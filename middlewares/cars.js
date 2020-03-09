@@ -1,12 +1,17 @@
 const database = require('./../utils/db');
 const mongoose = require('mongoose');
+
 /***
  * Car params
  */
 class carQuery {
     constructor(brand, model) {
-        if (brand){this.brand = brand}
-        if (model){this.model = model}
+        if (brand) {
+            this.brand = brand
+        }
+        if (model) {
+            this.model = model
+        }
     }
 }
 
@@ -29,13 +34,13 @@ exports.getCar = (req, res, next) => {
             res.status(500)
                 .json({"error": "Internal server error"});
 
-        } else if (cars.length){ //SINON SI ELEMENT TROUVED
+        } else if (cars.length) { //SINON SI ELEMENT TROUVED
             req.cars = cars;
             next();
 
-        } else{ //SINON AUCUN ELEMENT TROUVED
+        } else { //SINON AUCUN ELEMENT TROUVED
             res.status(404)
-                .json({ "message" : "No car found for : " + JSON.stringify(newQuery)})
+                .json({"message": "No car found for : " + JSON.stringify(newQuery)})
         }
     })
 
@@ -47,14 +52,14 @@ exports.postCar = (req, res, next) => {
     console.log('middleWare: postCar');
 
 
-    if (req.body.brand && req.body.model){
+    if (req.body.brand && req.body.model) {
         let newQuery = new carQuery(req.body.brand, req.body.model);
 
         console.log(newQuery);
 
         let newCar = new database.carModel(newQuery);
 
-        newCar.save( (err, car) => {
+        newCar.save((err, car) => {
             if (err) { //SI ERREUR INTERNE
                 console.log('err new car');
                 console.log(err);
@@ -68,7 +73,7 @@ exports.postCar = (req, res, next) => {
             }
         })
 
-    } else{
+    } else {
         res.status(500);
         res.json({"message": "Not all required params given"})
     }
@@ -79,32 +84,66 @@ exports.postCar = (req, res, next) => {
 exports.deleteCar = (req, res, next) => {
     console.log('middleWare: deleteCar');
 
-    if (req.params.id){
+    if (req.params.id) {
 
 
-        if (req.params.id.match(/^[0-9a-fA-F]{24}$/)){ //SI OBJECT ID
+        if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) { //SI OBJECT ID
 
             database.carModel.findByIdAndDelete(req.params.id)
-                .then((car)=>{
+                .then((car) => {
                     console.log(car);
                     req.cars = car;
                     next();
-                }).catch((err)=>{
+                }).catch((err) => {
                 console.log(err);
                 res.status(500);
                 res.json({"error": "Internal server error"});
             });
 
-        } else{
+        } else {
             res.status(500);
             res.json({"error": "Not objectID given"});
         }
 
-    } else{
+    } else {
         res.status(404);
-        res.json({"message" : "No ID given"})
+        res.json({"message": "No ID given"})
     }
 
+};
 
 
+//UPDATE CAR
+exports.updateCar = (req, res, next) => {
+    console.log('middleWare: updateCar');
+
+    if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) { //SI OBJECT ID
+
+        database.carModel.findById(req.params.id)
+            .then((car) => {
+                car.brand = req.body.brand ? req.body.brand : car.brand;
+                car.model = req.body.model ? req.body.model : car.model;
+
+                car.save()
+                    .then(() => {
+                        console.log('Car updated : ' + car);
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    });
+
+                req.cars = car;
+                next();
+
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500);
+                res.json({"error": "Internal server error"});
+            });
+
+    } else {
+        res.status(500);
+        res.json({"error": "No objectID given"});
+    }
 };
