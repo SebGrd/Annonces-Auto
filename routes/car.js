@@ -1,7 +1,7 @@
 const express = require('express');
 const car = express.Router();
 const utils = require('../utils/utils');
-const {postCar, getCar} = require('../middlewares/cars');
+const {postCar, getCar, deleteCar} = require('../middlewares/cars');
 
 
 
@@ -15,6 +15,11 @@ car.get('/', getCar, (req, res, next) => {
 car.post('/', postCar, (req, res, next) => {
     res.status(200);
     res.json({"message": "Car added", "car" : req.car});
+});
+
+car.delete('/:id', deleteCar, (req, res, next) => {
+   res.status(200);
+    res.json({"message": "Car deleted", "car" : "car"});
 });
 
 // car.delete('/:id', utils.isAdmin, (req, res) => {

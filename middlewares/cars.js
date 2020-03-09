@@ -1,5 +1,5 @@
 const database = require('./../utils/db');
-
+const mongoose = require('mongoose');
 /***
  * Car params
  */
@@ -71,6 +71,38 @@ exports.postCar = (req, res, next) => {
     } else{
         res.status(500);
         res.json({"message": "Not all required params given"})
+    }
+};
+
+
+//Delete car
+exports.deleteCar = (req, res, next) => {
+    console.log('middleWare: deleteCar');
+
+    if (req.params.id){
+
+
+        if (req.params.id.match(/^[0-9a-fA-F]{24}$/)){ //SI OBJECT ID
+
+            database.carModel.findByIdAndDelete(req.params.id)
+                .then((car)=>{
+                    console.log(car);
+                    req.cars = car;
+                    next();
+                }).catch((err)=>{
+                console.log(err);
+                res.status(500);
+                res.json({"error": "Internal server error"});
+            });
+
+        } else{
+            res.status(500);
+            res.json({"error": "Not objectID given"});
+        }
+
+    } else{
+        res.status(404);
+        res.json({"message" : "No ID given"})
     }
 
 
