@@ -4,16 +4,6 @@ const mongoose = require('mongoose');
 /***
  * Car params
  */
-class carQuery {
-    constructor(brand, model) {
-        if (brand) {
-            this.brand = brand
-        }
-        if (model) {
-            this.model = model
-        }
-    }
-}
 
 
 //Return cars
@@ -56,7 +46,7 @@ exports.postCar = (req, res, next) => {
 
     let newCar = new database.carModel(car);
     newCar.save()
-        .then((car)=>{
+        .then((car) => {
             console.log(car);
             req.car = car;
             next();
@@ -71,34 +61,25 @@ exports.postCar = (req, res, next) => {
 
 //Delete car
 exports.deleteCar = (req, res, next) => {
-    console.log('middleWare: deleteCar');
 
-    if (req.params.id) {
+    if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) { //SI OBJECT ID
 
-
-        if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) { //SI OBJECT ID
-
-            database.carModel.findByIdAndDelete(req.params.id)
-                .then((car) => {
-                    console.log(car);
-                    req.cars = car;
-                    next();
-                }).catch((err) => {
+        database.carModel.findByIdAndDelete(req.params.id)
+            .then((car) => {
+                console.log(car);
+                req.cars = car;
+                next();
+            })
+            .catch((err) => {
                 console.log(err);
                 res.status(500);
                 res.json({"error": "Internal server error"});
             });
 
-        } else {
-            res.status(500);
-            res.json({"error": "Not objectID given"});
-        }
-
     } else {
-        res.status(404);
-        res.json({"message": "No ID given"})
+        res.status(500);
+        res.json({"error": "No objectID given"});
     }
-
 };
 
 
@@ -112,7 +93,6 @@ exports.updateCar = (req, res, next) => {
             .then((car) => {
                 car.brand = req.body.brand ? req.body.brand : car.brand;
                 car.model = req.body.model ? req.body.model : car.model;
-
                 car.save()
                     .then(() => {
                         console.log('Car updated : ' + car);
@@ -123,7 +103,6 @@ exports.updateCar = (req, res, next) => {
 
                 req.cars = car;
                 next();
-
             })
             .catch((err) => {
                 console.log(err);
