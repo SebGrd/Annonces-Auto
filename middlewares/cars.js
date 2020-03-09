@@ -16,35 +16,30 @@ class carQuery {
 }
 
 
+
 //Return cars
 exports.getCar = (req, res, next) => {
-    console.log('middleWare: getCar');
 
-    /**
-     * Création du nouvel objet qui contient les paramètres
-     * @type {carQuery}
-     */
-    let newQuery = new carQuery(req.query.id, req.query.brand, req.query.model);
+    let car = {};
+    req.query.id ? car._id = req.query.id : null;
+    req.query.brand ? car.brand = req.query.brand : null;
+    req.query.model ? car.model = req.query.model : null;
 
-    console.log(newQuery);
-
-    database.carModel.find(newQuery, (err, cars) => {
-        if (err) { //SI ERREUR INTERNE
+    database.carModel.find(car)
+        .then((cars)=>{
+            if (cars.length) { //SI ELEMENT TROUVED
+                req.cars = cars;
+                next();
+            } else { //SINON AUCUN ELEMENT TROUVED
+                res.status(404)
+                    .json({"message": "No car found for : " + JSON.stringify(car)})
+            }
+        })
+        .catch((err) => {
             console.log(err);
-            res.status(500)
-                .json({"error": "Internal server error"});
-
-        } else if (cars.length) { //SINON SI ELEMENT TROUVED
-            req.cars = cars;
-            next();
-
-        } else { //SINON AUCUN ELEMENT TROUVED
-            res.status(404)
-                .json({"message": "No car found for : " + JSON.stringify(newQuery)})
-        }
-    })
-
-
+            res.status(500);
+            res.json({"error": "Internal server error"});
+        });
 };
 
 //Insert car
