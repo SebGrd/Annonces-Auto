@@ -10,7 +10,7 @@ car.get('/', getCar, (req, res, next) => {
 });
 
 car.post('/', utils.apiRights, postCar, (req, res, next) => {
-    res.status(200);
+    res.status(201);
     res.json({"message": "Car added", "car" : req.car});
 });
 
