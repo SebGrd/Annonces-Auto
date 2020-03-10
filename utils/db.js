@@ -16,7 +16,10 @@ exports.carModel = Car;
 const Annonce = mongoose.model(
     'Annonce',
     {
-        userId: String,
+        user: {
+            type: mongoose.Types.ObjectId,
+            ref: 'User'
+        },
         content: String,
         price: Number,
         car: {
@@ -37,6 +40,7 @@ const Annonce = mongoose.model(
         }
     }
 );
+exports.annonceModel = Annonce;
 
 const User = mongoose.model(
     'User',
@@ -47,7 +51,11 @@ const User = mongoose.model(
         mail: String,
         phone: Number,
         professional: Boolean,
-        zip: Number
+        zip: Number,
+        annonces: [{
+            type: mongoose.Types.ObjectId,
+            ref: 'Annonce'
+        }]
     }
 );
 
@@ -65,3 +73,64 @@ exports.connect = () => {
             console.log(logErr('DB Error\n') + error);
         });
 };
+
+
+// let user = {
+//     username: 'Admin1',
+//     name: '1',
+//     surname: 'Admin',
+//     mail: 'test@gmail.com',
+//     phone: '0123456789',
+//     professional: false,
+//     zip: 77140,
+// };
+
+
+// let annonce = {
+//     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+//     price: 6500,
+//     car: {
+//         brand: 'AAATest',
+//         model: 'X5',
+//         details: {
+//             version: 'TDI II',
+//             color: 'Rouge',
+//             places: 5,
+//             doors: 5,
+//             km: 196000,
+//             energy: 'Diesel',
+//             productionYear: 2012,
+//             transmission: 'Manuelle',
+//             hp: 212,
+//             cf: 5
+//         }
+//     }
+// };
+
+// let newAnnonce = new Annonce(annonce);
+// newAnnonce.save()
+//     .then((annonce) => {
+//         console.log(annonce);
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });;
+
+
+// let newUser = new User(user);
+// newUser.save()
+//     .then((user) => {
+//         console.log(user);
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });
+
+function getUserWithPosts(username){
+    return User.findOne({ username: username })
+        .populate('annonces').exec((err, annonces) => {
+            console.log("Populated User " + annonces);
+        })
+}
+
+// getUserWithPosts('Admin1');

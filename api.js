@@ -29,6 +29,7 @@ app.use('/annonce', annonce);
 
 database.connect();
 
+
 app.listen(2727, () => {
     console.log(logOk('Server running on 2727'))
 });
