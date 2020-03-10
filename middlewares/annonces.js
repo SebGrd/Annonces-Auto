@@ -3,16 +3,14 @@ const database = require('./../utils/db');
 //Return cars
 exports.getAnnonce = (req, res, next) => {
 
-    console.log(req.body);
-
     database.annonceModel.find(req.body)
         .then((annonces) => {
-            if (annonces.length) { //SI ELEMENT TROUVED
+            if (annonces.length) {
                 req.annonces = annonces;
                 next();
-            } else { //SINON AUCUN ELEMENT TROUVED
-                res.status(404)
-                    .json({"message": "No posts found for : " + JSON.stringify(req.body)})
+            } else {
+                res.status(404);
+                res.json({"message": "No posts found for : " + JSON.stringify(req.body)});
             }
         })
         .catch((err) => {
@@ -20,5 +18,26 @@ exports.getAnnonce = (req, res, next) => {
             res.status(500);
             res.json({"error": "Internal server error"});
         });
+};
 
+//Return cars
+exports.postAnnonce = (req, res, next) => {
+
+
+    let expectedAnnonce = [
+        'user', 'content', 'price', 'car',
+        'brand', 'model', 'details',
+        'version',
+        'color',
+        'places',
+        'doors',
+        'km',
+        'energy',
+        'productionYear',
+        'transmission',
+        'hp',
+        'cf'
+    ];
+
+    next();
 };
