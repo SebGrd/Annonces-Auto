@@ -23,21 +23,16 @@ exports.getAnnonce = (req, res, next) => {
 //Return cars
 exports.postAnnonce = (req, res, next) => {
 
-
-    let expectedAnnonce = [
-        'user', 'content', 'price', 'car',
-        'brand', 'model', 'details',
-        'version',
-        'color',
-        'places',
-        'doors',
-        'km',
-        'energy',
-        'productionYear',
-        'transmission',
-        'hp',
-        'cf'
-    ];
-
-    next();
+    let newAnnonce = new database.annonceModel(req.body);
+    newAnnonce.save()
+        .then((annonce)=>{
+            console.log(annonce);
+            req.annonce = annonce;
+            next();
+        })
+        .catch((err)=>{
+           console.log(err);
+           res.status(500);
+           res.json({"message": "Internal server error"});
+        });
 };

@@ -18,24 +18,67 @@ const Annonce = mongoose.model(
     {
         user: {
             type: mongoose.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            required: true
         },
-        content: String,
-        price: Number,
+        content: {
+            type: String,
+            required: true
+        },
+        price: {
+            type: Number,
+            required: true
+        },
         car: {
-            brand: String,
-            model: String,
+            brand: {
+                type: String,
+                required: true
+            },
+            model: {
+                type: String,
+                required: true
+            },
             details: {
-                version: String,
-                color: String,
-                places: Number,
-                doors: Number,
-                km: Number,
-                energy: String,
-                productionYear: Number,
-                transmission: String,
-                hp: Number,
-                cf: Number
+                version: {
+                    type: String,
+                    required: true
+                },
+                color: {
+                    type: String,
+                    required: true
+                },
+                places: {
+                    type: Number,
+                    required: true
+                },
+                doors: {
+                    type: Number,
+                    required: true
+                },
+                km: {
+                    type: Number,
+                    required: true
+                },
+                energy: {
+                    type: String,
+                    required: true
+                },
+                productionYear: {
+                    type: Number,
+                    required: true
+                },
+                transmission: {
+                    type: String,
+                    required: true
+                },
+                hp: {
+                    type: Number,
+                    required: true
+                },
+                cf: {
+                    type: String,
+                    required: true
+                }
             }
         }
     }
@@ -126,8 +169,8 @@ exports.connect = () => {
 //         console.log(err);
 //     });
 
-function getUserWithPosts(username){
-    return User.findOne({ username: username })
+function getUserWithPosts(username) {
+    return User.findOne({username: username})
         .populate('annonces').exec((err, annonces) => {
             console.log("Populated User " + annonces);
         })
