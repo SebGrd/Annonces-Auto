@@ -1,24 +1,8 @@
-const isAdmin = (req, res, next) => {
-    let admin = true;
-    if (admin){
+exports.apiRights = (req, res, next) => {
+    if (req.header('api_key') === process.env.API_KEY){
         next();
     } else {
-        res.status(401)
-            .json({"error" : "No permission"})
+        res.status(401);
+        res.json({"error": "No permission"});
     }
 };
-
-module.exports = {isAdmin};
-
-const test = (req, res, next) => {
-    let test = true;
-    if (test){
-        console.log(req.query);
-        next();
-    } else {
-        res.status(401)
-            .json({"error" : "test error"})
-    }
-};
-
-module.exports = {test};
