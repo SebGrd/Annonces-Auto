@@ -1,4 +1,5 @@
 const database = require('./../utils/db');
+// const { objToUpdateMongoose } = require('./../utils/utils');
 
 //Return cars
 exports.getAnnonce = (req, res, next) => {
@@ -25,14 +26,40 @@ exports.postAnnonce = (req, res, next) => {
 
     let newAnnonce = new database.annonceModel(req.body);
     newAnnonce.save()
-        .then((annonce)=>{
+        .then((annonce) => {
             console.log(annonce);
             req.annonce = annonce;
             next();
         })
-        .catch((err)=>{
-           console.log(err);
-           res.status(500);
-           res.json({"message": "Internal server error"});
+        .catch((err) => {
+            console.log(err);
+            res.status(500);
+            res.json({"message": "Internal server error"});
         });
+};
+
+//Return cars
+exports.updateAnnonce = (req, res, next) => {
+
+    if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) { //SI OBJECT ID
+
+        // const dotNotated = objToUpdateMongoose(req.body);
+        // console.log(dotNotated);
+
+        database.annonceModel.findByIdAndUpdate(req.params.id,{$set:req.body}, {new: true})
+            .then((annonce) => {
+                console.log(annonce);
+                req.modifs = req.body;
+                next();
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500);
+                res.json({"error": "Internal server error"});
+            });
+
+    } else {
+        res.status(500);
+        res.json({"error": "No objectID given"});
+    }
 };
