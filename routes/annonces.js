@@ -8,17 +8,17 @@ annonce.get('/', getAnnonce, (req, res, next) => {
    res.json(req.annonces);
 });
 
-annonce.post('/', postAnnonce, (req, res, next) => {
+annonce.post('/', utils.apiRights, postAnnonce, (req, res, next) => {
    res.status(201);
    res.json({"message": "annonce created", "annonce": req.annonce});
 });
 
-annonce.put('/:id', updateAnnonce, (req, res, next) => {
+annonce.put('/:id', utils.apiRights, updateAnnonce, (req, res, next) => {
    res.status(200);
    res.json({"message": "annonce updated", "modifs": req.modifs});
 });
 
-annonce.delete('/:id', deleteAnnonce, (req, res, next) => {
+annonce.delete('/:id', utils.apiRights, deleteAnnonce, (req, res, next) => {
    res.status(200);
    res.json({"message": "annonce deleted"});
 });

@@ -1,5 +1,5 @@
 exports.apiRights = (req, res, next) => {
-    if (req.header('api_key') === process.env.API_KEY){
+    if (req.header('x-api-key') === process.env.API_KEY){
         next();
     } else {
         res.status(401);
