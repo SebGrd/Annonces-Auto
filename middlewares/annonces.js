@@ -1,5 +1,5 @@
 const database = require('./../utils/db');
-// const { objToUpdateMongoose } = require('./../utils/utils');
+const { objToUpdateMongoose } = require('./../utils/utils');
 
 //Return cars
 exports.getAnnonce = (req, res, next) => {
@@ -43,13 +43,11 @@ exports.updateAnnonce = (req, res, next) => {
 
     if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) { //SI OBJECT ID
 
-        // const dotNotated = objToUpdateMongoose(req.body);
-        // console.log(dotNotated);
+        const mongooseData = objToUpdateMongoose(req.body);
 
-        database.annonceModel.findByIdAndUpdate(req.params.id,{$set:req.body}, {new: true})
+        database.annonceModel.findByIdAndUpdate(req.params.id,{$set:mongooseData}, {new: true})
             .then((annonce) => {
-                console.log(annonce);
-                req.modifs = req.body;
+                req.modifs = annonce;
                 next();
             })
             .catch((err) => {

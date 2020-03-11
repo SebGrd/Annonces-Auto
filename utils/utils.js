@@ -6,16 +6,16 @@ exports.apiRights = (req, res, next) => {
         res.json({"error": "No permission"});
     }
 };
-//
-// function objToUpdateMongoose(obj, newObj={}, prefix=""){
-//     for(let key in obj) {
-//         if (typeof obj[key] === "object") {
-//             objToUpdateMongoose(obj[key], newObj, prefix + key + ".");
-//         } else {
-//             newObj[prefix + key] = obj[key];
-//         }
-//     }
-//     return newObj;
-// };
-//
-// exports.objToUpdateMongoose = objToUpdateMongoose;
+
+function objToUpdateMongoose(obj, newObj={}, prefix=""){
+    for(let key in obj) {
+        if (typeof obj[key] === "object") {
+            objToUpdateMongoose(obj[key], newObj, prefix + key + ".");
+        } else {
+            newObj[prefix + key] = obj[key];
+        }
+    }
+    return newObj;
+};
+
+exports.objToUpdateMongoose = objToUpdateMongoose;
