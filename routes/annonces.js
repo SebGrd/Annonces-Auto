@@ -1,7 +1,7 @@
 const express = require('express');
 const annonce = express.Router();
 const utils = require('../utils/utils');
-const { getAnnonce, postAnnonce, updateAnnonce } = require('../middlewares/annonces');
+const { getAnnonce, postAnnonce, updateAnnonce, deleteAnnonce } = require('../middlewares/annonces');
 
 annonce.get('/', getAnnonce, (req, res, next) => {
    res.status(200);
@@ -18,4 +18,8 @@ annonce.put('/:id', updateAnnonce, (req, res, next) => {
    res.json({"message": "annonce updated", "modifs": req.modifs});
 });
 
+annonce.delete('/:id', deleteAnnonce, (req, res, next) => {
+   res.status(200);
+   res.json({"message": "annonce deleted"});
+});
 module.exports = annonce;

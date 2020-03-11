@@ -1,7 +1,6 @@
 const database = require('./../utils/db');
-const { objToUpdateMongoose } = require('./../utils/utils');
+const {objToUpdateMongoose} = require('./../utils/utils');
 
-//Return cars
 exports.getAnnonce = (req, res, next) => {
 
     database.annonceModel.find(req.body)
@@ -21,7 +20,6 @@ exports.getAnnonce = (req, res, next) => {
         });
 };
 
-//Return cars
 exports.postAnnonce = (req, res, next) => {
 
     let newAnnonce = new database.annonceModel(req.body);
@@ -38,14 +36,13 @@ exports.postAnnonce = (req, res, next) => {
         });
 };
 
-//Return cars
 exports.updateAnnonce = (req, res, next) => {
 
     if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) { //SI OBJECT ID
 
         const mongooseData = objToUpdateMongoose(req.body);
 
-        database.annonceModel.findByIdAndUpdate(req.params.id,{$set:mongooseData}, {new: true})
+        database.annonceModel.findByIdAndUpdate(req.params.id, {$set: mongooseData}, {new: true})
             .then((annonce) => {
                 req.modifs = annonce;
                 next();
@@ -56,6 +53,24 @@ exports.updateAnnonce = (req, res, next) => {
                 res.json({"error": "Internal server error"});
             });
 
+    } else {
+        res.status(500);
+        res.json({"error": "No objectID given"});
+    }
+};
+
+
+exports.deleteAnnonce = (req, res, next) => {
+    if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+        database.annonceModel.findByIdAndDelete(req.params.id)
+            .then(() => {
+                next();
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500);
+                res.json({"error": "Internal server error"});
+            });
     } else {
         res.status(500);
         res.json({"error": "No objectID given"});
