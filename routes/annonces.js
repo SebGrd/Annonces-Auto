@@ -22,4 +22,6 @@ annonce.delete('/:id', utils.apiRights, deleteAnnonce, (req, res, next) => {
    res.status(200);
    res.json({"message": "annonce deleted"});
 });
+
+
 module.exports = annonce;

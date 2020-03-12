@@ -13,6 +13,7 @@ const database = require('./utils/db');
 
 const car = require('./routes/car');
 const annonce = require('./routes/annonces');
+const user = require('./routes/users');
 
 app.use(logger('dev'));
 app.use(parser.json());
@@ -26,6 +27,7 @@ app.get('/', (req, res, next) => {
 
 app.use('/car', car);
 app.use('/annonce', annonce);
+app.use('/user', user);
 
 database.connect();
 
