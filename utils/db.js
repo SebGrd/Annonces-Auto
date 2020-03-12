@@ -88,13 +88,32 @@ exports.annonceModel = Annonce;
 const User = mongoose.model(
     'User',
     {
-        username: String,
-        name: String,
-        surname: String,
-        mail: String,
+        username:  {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        surname: {
+            type: String,
+            required: true
+        },
+        mail: {
+            type: String,
+            required: true
+        },
         phone: Number,
-        professional: Boolean,
-        zip: Number,
+        professional: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        zip: {
+            type: Number,
+            required: true
+        },
         annonces: [{
             type: mongoose.Types.ObjectId,
             ref: 'Annonce'
