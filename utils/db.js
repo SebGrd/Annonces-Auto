@@ -120,6 +120,8 @@ const User = mongoose.model(
         }]
     }
 );
+exports.userModel = User;
+
 
 exports.connect = () => {
     mongoose.connect(
