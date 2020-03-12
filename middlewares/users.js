@@ -3,7 +3,7 @@ const { objToUpdateMongoose } = require('./../utils/utils');
 const bcrypt = require('bcrypt');
 
 exports.getUsers = (req, res, next) => {
-    
+
     database.userModel.find(req.body)
         .then((users) => {
             if (users.length) {
