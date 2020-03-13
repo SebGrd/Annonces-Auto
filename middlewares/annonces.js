@@ -25,7 +25,6 @@ exports.postAnnonce = (req, res, next) => {
     let newAnnonce = new database.annonceModel(req.body);
     newAnnonce.save()
         .then((annonce) => {
-            console.log(annonce);
             req.annonce = annonce;
             next();
         })

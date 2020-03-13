@@ -111,7 +111,6 @@ const User = mongoose.model(
         phone: Number,
         professional: {
             type: Boolean,
-            required: true,
             default: false
         },
         zip: {
