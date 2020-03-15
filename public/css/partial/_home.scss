@@ -1,0 +1,112 @@
+.slider-search{
+  margin-bottom: 50px;
+  .recherche-home{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 350px;
+    margin: 20px 0 0 35px;
+    background: white;
+    padding: 10px 20px;
+    border-left: 6px solid $secondary;
+    form{
+      font-family: Asap, sans-serif;
+    }
+  }
+}
+
+.new-annonces{
+  margin-bottom: 50px;
+  h2{
+    margin-bottom: 20px;
+    font-family: Asap, sans-serif;
+    font-weight: bold;
+    border-bottom: 3px solid $secondary;
+  }
+  .card-annonce-home{
+    margin: 0 8px;
+    font-family: Asap, sans-serif;
+    border-bottom: 4px solid $secondary;
+    outline: none;
+    .card-annonce-home-image{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 200px;
+      min-height: 200px;
+      overflow: hidden;
+      background: $lightgray;
+      img{
+        width: 100%;
+      }
+    }
+    .card-annonce-home-body{
+      padding-top: 15px;
+      h3{
+        margin-bottom: 0;
+      }
+      h4{
+        font-size: 16px;
+        color: $mediumgray;
+      }
+      ul{
+        display: flex;
+        flex-wrap: wrap;
+        padding-left: 0;
+        margin: 0;
+        list-style: none;
+        li{
+          width: 50%;
+          margin-bottom: 6px;
+          i{
+            width: 30px;
+          }
+        }
+      }
+      .price{
+        margin-top: 15px;
+        text-align: right;
+        b{
+          font-size: 26px;
+        }
+      }
+    }
+  }
+}
+
+.large-info{
+  background: $lightgray;
+  margin-bottom: 50px;
+  .info-body{
+    padding: 20px 15px 0 0;
+    font-family: Asap, sans-serif;
+    h3{
+      font-size: 26px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+  }
+}
+
+.stats{
+  margin-bottom: 50px;
+  .stats-list{
+    .stat{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .number{
+        font-family: Asap, sans-serif;
+        color: $secondary;
+        font-size: 40px;
+        line-height: 1;
+      }
+      .label{
+        font-family: Asap, sans-serif;
+        font-weight: bold;
+      }
+    }
+  }
+}

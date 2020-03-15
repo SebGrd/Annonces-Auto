@@ -1,0 +1,71 @@
+$custom-aero-colors: (
+        "aero-yello":    #ffec09,
+        "aero-blue":  #09bbff,
+        "aero-green":  #49d41b,
+) !default;
+
+.info-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  font-weight: 600;
+  color: $dark;
+
+  border-radius: 4px;
+  padding: 20px 40px;
+
+  span{
+    &:last-child{
+      font-size: 50px;
+    }
+  }
+}
+
+@each $color, $value in $custom-aero-colors {
+  .info-btn-#{$color} {
+    background: $value;
+    box-shadow: darken($value, 7%) 0 0 5px;
+  }
+}
+
+
+
+//SLICK DOTS
+.slick-initialized{
+  .slick-slide{
+    outline: none;
+  }
+}
+.slick-dots{
+  display: flex;
+  justify-content: center;
+  align-items: self-start;
+  padding: 0;
+  margin: 20px 0 0 0;
+  list-style: none;
+  li{
+    position: relative;
+    margin: 0 8px;
+    &:after{
+      position: absolute;
+      content: '';
+      top: 50%;
+      right: 0;
+      left: 0;
+      height: 3px;
+      pointer-events: none;
+      background: $mediumgray;
+      transition: all 400ms ease;
+    }
+    &.slick-active{
+      &:after{
+        background: $secondary;
+      }
+    }
+    button{
+      opacity: 0;
+    }
+  }
+}

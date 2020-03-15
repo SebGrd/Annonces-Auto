@@ -1,0 +1,61 @@
+@media (max-width: 767px) {
+  //MENU MOBILE
+  header{
+    .site-logo{
+      max-height: 50px;
+    }
+    nav{
+      //display: none;
+      position: fixed;
+      right: -320px; //Disparition du menu
+      top: 0;
+      bottom: 0;
+      width: 300px;
+      background: white;
+      box-shadow: rgba(0,0,0, 0.4) 0 0 10px;
+      padding-left: 15px;
+      z-index: 5;
+      &>ul{
+        display: block;
+        li{
+          &.level-1 {
+            margin-right: 0;
+            &:before{
+              display: none;
+            }
+            & > a{
+              &.has-child{
+                &:after{
+                  display: none;
+                }
+              }
+            }
+            ul.nav-dropdown{
+              display: block;
+              position: static;
+              width: auto;
+              background: transparent;
+              box-shadow: none;
+              li{
+                &.separated{
+                  border-top: none;
+                  padding-top: 0;
+                }
+                a{
+                  &:hover{
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .open-mobile{
+      display: block;
+    }
+    .close-mobile{
+      display: block;
+    }
+  }
+}

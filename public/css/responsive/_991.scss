@@ -1,0 +1,27 @@
+@media (max-width: 991px) {
+  header {
+    nav {
+      & > ul {
+        li {
+          &.level-1 {
+            &:before {
+              top: 2px;
+            }
+
+            & > a {
+              font-size: 20px;
+              padding: 10px 20px 10px 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  .slider-search {
+    .recherche-home {
+      position: static;
+      width: auto;
+      margin: auto;
+    }
+  }
+}
