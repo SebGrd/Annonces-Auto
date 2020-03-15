@@ -9,7 +9,7 @@ user.get('/', utils.apiRights, getUsers, (req, res, next) => {
 });
 
 user.post('/', utils.apiRights, postUsers, (req, res, next) => {
-   res.status(200);
+   res.status(201);
    res.json(req.user);
 });
 
