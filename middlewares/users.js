@@ -49,3 +49,20 @@ exports.postUsers = (req, res, next) => {
         res.json({"message": "Password missing"});
     }
 };
+
+exports.deleteUsers = (req, res, next) => {
+    if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+        database.userModel.findByIdAndDelete(req.params.id)
+            .then(() => {
+                next();
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500);
+                res.json({"error": "Internal server error"});
+            });
+    } else {
+        res.status(500);
+        res.json({"error": "No objectID given"});
+    }
+}
