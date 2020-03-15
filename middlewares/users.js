@@ -50,6 +50,54 @@ exports.postUsers = (req, res, next) => {
     }
 };
 
+exports.updateUsers = (req, res, next) => {
+
+    if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) { //SI OBJECT ID
+
+        async function cryptObjectProperty(object, property){
+            if (object[property]){
+                let encrypt = new Promise( (hashed, err) => {
+                    bcrypt.hash(object[property], 10)
+                        .then( hash => {
+                            object[property] = hash;
+                            hashed(object);
+                        })
+                        .catch(err =>{
+                            console.log(err);
+                        });
+                });
+                return await encrypt;
+            } else {
+                return object;
+            }
+        }
+
+        cryptObjectProperty(req.body, 'password')
+            .then( hashedObject => {
+                const mongooseData = objToUpdateMongoose(hashedObject);
+                database.userModel.findByIdAndUpdate(req.params.id, {$set: mongooseData}, {new: true})
+                    .then((user) => {
+                        req.modifs = user;
+                        next();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500);
+                        res.json({"error": "Internal server error"});
+                    });
+
+            })
+            .catch( err => {
+                console.log(err);
+            });
+
+    } else {
+        res.status(500);
+        res.json({"error": "No objectID given"});
+    }
+};
+
+
 exports.deleteUsers = (req, res, next) => {
     if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
         database.userModel.findByIdAndDelete(req.params.id)
@@ -65,4 +113,4 @@ exports.deleteUsers = (req, res, next) => {
         res.status(500);
         res.json({"error": "No objectID given"});
     }
-}
+};
