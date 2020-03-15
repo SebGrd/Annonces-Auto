@@ -15,7 +15,7 @@ user.post('/', utils.apiRights, postUsers, (req, res, next) => {
 
 user.delete('/:id', utils.apiRights, deleteUsers, (req, res, next) => {
    res.status(200);
-   res.json({"message": "annonce deleted"});
+   res.json({"message": "user deleted"});
 });
 
 module.exports = user;
