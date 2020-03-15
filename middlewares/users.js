@@ -21,16 +21,31 @@ exports.getUsers = (req, res, next) => {
 };
 
 exports.postUsers = (req, res, next) => {
-    let newUser = new database.userModel(req.body);
-    newUser.save()
-        .then(user => {
-            console.log(user);
-            req.user = user;
-            next();
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500);
-            res.json({"message": "Internal server error"});
-        });
+    if (req.body.password){
+        bcrypt.hash(req.body.password, 10)
+            .then( hashed =>{
+               req.body.password = hashed;
+
+                let newUser = new database.userModel(req.body);
+                newUser.save()
+                    .then(user => {
+                        req.user = user;
+                        next();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500);
+                        res.json({"message": "Internal server error"});
+                    });
+
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500);
+                res.json({"message": "Internal server error"});
+            });
+    } else{
+        res.status(500);
+        res.json({"message": "Password missing"});
+    }
 };
