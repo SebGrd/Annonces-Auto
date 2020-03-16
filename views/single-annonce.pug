@@ -2,4 +2,6 @@ extends pug-layout/_layout
 block content
     section.single-annonce
         .container
-            h1 CITROËN C5 AIRCROSS
+            h1 #{car.brand} #{car.model}
+            code
+                = JSON.stringify(car)
