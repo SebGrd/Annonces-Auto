@@ -14,20 +14,19 @@ const database = require('./utils/db');
 const car = require('./routes/car');
 const annonce = require('./routes/annonces');
 const user = require('./routes/users');
+const views = require('./routes/views');
 
 app.use(logger('dev'));
 app.use(parser.json());
 app.use(parser.urlencoded({extended:true}));
-app.use(express.static(__dirname + 'public'));
+app.use(express.static( 'public'));
+app.set('view engine', 'pug');
 
-app.get('/', (req, res, next) => {
-    res.status(200);
-    res.json({"message": "Annonces-auto API"})
-});
-
-app.use('/car', car);
-app.use('/annonce', annonce);
-app.use('/user', user);
+//ROUTES
+app.use('/api/car', car);
+app.use('/api/annonce', annonce);
+app.use('/api/user', user);
+app.use('/', views);
 
 database.connect();
 

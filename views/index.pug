@@ -1,0 +1,170 @@
+extends pug-layout/_layout
+block content
+    section.slider-search
+        .container
+            .row
+                .col
+                    // 1600x800
+                    .slick-home
+                        .single-slide-1
+                            img.img-fluid(src='/img/slider-home3.jpg' alt='Image slider')
+                        .single-slide-2
+                            img.img-fluid(src='/img/slider-home2.jpg' alt='Image slider')
+                    .recherche-home
+                        form(action='#')
+                            .form-group
+                                label(for='marque') Marque
+                                select#marque.form-control(name='marque')
+                                    option(value='1') Citoën
+                                    option(value='2') Peugeot
+                                    option(value='3') KIA
+                                    option(value='4') Audi
+                                    option(value='5') Tesla
+                            .form-group
+                                label(for='energie') Energie
+                                select#energie.form-control(name='marqueVoiture')
+                                    option(value='1') Diesel
+                                    option(value='2') Essence
+                                    option(value='3') Electrique
+                                    option(value='4') GPL
+                                    option(value='5') Hydrogène
+                            .form-group
+                                label Type de boite
+                                .form-check
+                                    input#boiteM.form-check-input(type='radio' name='typeBoite' value='Manuelle')
+                                    label.form-check-label(for='boiteM') Manuelle
+                                .form-check
+                                    input#boiteA.form-check-input(type='radio' name='typeBoite' value='Automatique')
+                                    label.form-check-label(for='boiteA') Automatique
+                            .form-group
+                                label(for='chevaux') Puissance DIN (min)
+                                input#chevaux.form-control-range(type='range' min='1' max='100' name='ch' value='50')
+                            .form-group
+                                label(for='portes') Nombre de portes
+                                select#portes.form-control(name='nbPortes')
+                                    option(value='3') 3
+                                    option(value='5') 5
+                            .d-flex.align-items-center.justify-content-end
+                                button.btn.btn-secondary(type='submit') Rechercher
+    section.new-annonces
+        .container
+            h2 Les dernières annonces
+            .slick-new-annonces
+                .slide-annonce
+                    .card-annonce-home
+                        .card-annonce-home-image
+                            img.img-fluid(src='/img/annonce1.jpg' alt='')
+                        .card-annonce-home-body
+                            h3 KIA CEED 3
+                            h4 III 1.4 T-GDI 140 ISG ACTIVE DCT7
+                            ul
+                                li
+                                    i.fas.fa-gas-pump
+                                    | Diesel
+                                li
+                                    i.fas.fa-cogs
+                                    |  Manuelle
+                                li
+                                    i.fas.fa-road
+                                    |  19562 km
+                                li
+                                    i.fas.fa-calendar-alt
+                                    |  2018
+                            p.price
+                                b 19 800 €
+                .slide-annonce
+                    .card-annonce-home
+                        .card-annonce-home-image
+                            img.img-fluid(src='/img/annonce2.jpg' alt='')
+                        .card-annonce-home-body
+                            h3 CITROËN C5 AIRCROSS
+                            h4 1.5 BLUEHDI 130 S&amp;S SHINE EAT8
+                            ul
+                                li
+                                    i.fas.fa-gas-pump
+                                    | Diesel
+                                li
+                                    i.fas.fa-cogs
+                                    | Automatique
+                                li
+                                    i.fas.fa-road
+                                    | 50 km
+                                li
+                                    i.fas.fa-calendar-alt
+                                    | 2019
+                            p.price
+                                b 29 900 €
+                .slide-annonce
+                    .card-annonce-home
+                        .card-annonce-home-image
+                            img.img-fluid(src='/img/slider-home3.jpg' alt='')
+                        .card-annonce-home-body
+                            h3 KIA CEED 3
+                            h4 III 1.4 T-GDI 140 ISG ACTIVE DCT7
+                            ul
+                                li
+                                    i.fas.fa-gas-pump
+                                    | Diesel
+                                li
+                                    i.fas.fa-cogs
+                                    | Manuelle
+                                li
+                                    i.fas.fa-road
+                                    | 19562 km
+                                li
+                                    i.fas.fa-calendar-alt
+                                    | 2018
+                            p.price
+                                b 19 800 €
+                .slide-annonce
+                    .card-annonce-home
+                        .card-annonce-home-image
+                            img.img-fluid(src='/img/slider-home2.jpg' alt='')
+                        .card-annonce-home-body
+                            h3 KIA CEED 3
+                            h4 III 1.4 T-GDI 140 ISG ACTIVE DCT7
+                            ul
+                                li
+                                    i.fas.fa-gas-pump
+                                    | Diesel
+                                li
+                                    i.fas.fa-cogs
+                                    | Manuelle
+                                li
+                                    i.fas.fa-road
+                                    | 19562 km
+                                li
+                                    i.fas.fa-calendar-alt
+                                    | 2018
+                            p.price
+                                b 19 800 €
+    section.large-info
+        .container
+            .row
+                .col-12.col-sm-6
+                    .info-body
+                        h3 Lorem ipsum
+                        p
+                            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad asperiores distinctio dolore esse id
+                            | in nihil nisi perferendis quasi quibusdam, quos repudiandae rerum tempore unde vel! Aspernatur
+                            | consequatur eos tempora.
+                        a.btn.btn-secondary(href='#') Déposer une annonce
+                .col-12.col-sm-6
+                    .info-img-container
+                        img.img-fluid(src='/img/camions.jpg' alt='')
+    section.stats
+        .container
+            .stats-list
+                .row
+                    .col-12.col-sm-4
+                        .stat
+                            span.number 6591
+                            span.label Annonces postées
+                    .col-12.col-sm-4
+                        .stat
+                            span.number 4213
+                            span.label Voitures différentes
+                    .col-12.col-sm-4
+                        .stat
+                            span.number 23
+                            span.label Marques

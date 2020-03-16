@@ -1,0 +1,36 @@
+$anim-color: (
+        "light":    #ffffff,
+        "secondary": $secondary
+) !default;
+
+.ac-line-bottom{
+  position: relative;
+  text-decoration: none;
+  &:before{
+    position: absolute;
+    content: '';
+    bottom: -1px;
+    right: 0;
+    left: 0;
+    height: 2px;
+    background: $secondary;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: all 200ms cubic-bezier(.38,0,.74,.99);
+  }
+  &:hover{
+    text-decoration: none;
+    &:before{
+      transform: scaleX(1);
+      transform-origin: right;
+    }
+  }
+}
+
+@each $color, $value in $anim-color {
+  .ac-line-bottom-#{$color} {
+    &:before{
+      background: $value;
+    }
+  }
+}

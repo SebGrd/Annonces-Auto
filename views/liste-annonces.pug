@@ -1,0 +1,121 @@
+extends pug-layout/_layout
+block content
+    section.recherche-liste
+        .container
+            h1 Liste des annonces
+            .row
+
+                .col-3.mb-5
+                    .recherche-sidebar.border.p-2.rounded
+                        form(action='#')
+                            .form-group
+                                label(for='marque') Marque
+                                select#marque.form-control(name='marque')
+                                    option(value='1') Citoën
+                                    option(value='2') Peugeot
+                                    option(value='3') KIA
+                                    option(value='4') Audi
+                                    option(value='5') Tesla
+                            .form-group
+                                label(for='energie') Energie
+                                select#energie.form-control(name='marqueVoiture')
+                                    option(value='1') Diesel
+                                    option(value='2') Essence
+                                    option(value='3') Electrique
+                                    option(value='4') GPL
+                                    option(value='5') Hydrogène
+                            .form-group
+                                label Type de boite
+                                .form-check
+                                    input#boiteM.form-check-input(type='radio' name='typeBoite' value='Manuelle')
+                                    label.form-check-label(for='boiteM') Manuelle
+                                .form-check
+                                    input#boiteA.form-check-input(type='radio' name='typeBoite' value='Automatique')
+                                    label.form-check-label(for='boiteA') Automatique
+                            .form-group
+                                label(for='chevaux') Puissance DIN (min)
+                                input#chevaux.form-control-range(type='range' min='1' max='100' name='ch' value='50')
+                            .form-group
+                                label(for='portes') Nombre de portes
+                                select#portes.form-control(name='nbPortes')
+                                    option(value='3') 3
+                                    option(value='5') 5
+                            .d-flex.align-items-center.justify-content-center
+                                button.btn.btn-secondary(type='submit') Rechercher
+
+                .col-9.liste-resultat
+                    h2 125 résultats :
+                    .resultat
+                        .row
+                            .col-4
+                                .resultat-img
+                                    img.img-fluid(src='/img/annonce2.jpg' alt='')
+                            .col-8
+                                .resultat-content
+                                    h3.resultat-title CITROËN C5 AIRCROSS
+                                    h4.resultat-subtitle 1.5 BLUEHDI 130 S&amp;S SHINE EAT8
+                                    ul
+                                        li
+                                            i.fas.fa-gas-pump
+                                            | Diesel
+                                        li
+                                            i.fas.fa-cogs
+                                            | Automatique
+                                        li
+                                            i.fas.fa-road
+                                            | 50 km
+                                        li
+                                            i.fas.fa-calendar-alt
+                                            | 2019
+                                    p.resultat-price
+                                        b 29 900 €
+
+                    .resultat
+                        .row
+                            .col-4
+                                .resultat-img
+                                    img.img-fluid(src='/img/annonce1.jpg' alt='')
+                            .col-8
+                                .resultat-content
+                                    h3.resultat-title KIA CEED 3
+                                    h4.resultat-subtitle III 1.4 T-GDI 140 ISG ACTIVE DCT7
+                                    ul
+                                        li
+                                            i.fas.fa-gas-pump
+                                            | Diesel
+                                        li
+                                            i.fas.fa-cogs
+                                            | Manuelle
+                                        li
+                                            i.fas.fa-road
+                                            | 19562 km
+                                        li
+                                            i.fas.fa-calendar-alt
+                                            | 2018
+                                    p.resultat-price
+                                        b 19 800 €
+
+                    .resultat
+                        .row
+                            .col-4
+                                .resultat-img
+                                    img.img-fluid(src='/img/slider-home3.jpg' alt='')
+                            .col-8
+                                .resultat-content
+                                    h3.resultat-title CITROËN C5 AIRCROSS
+                                    h4.resultat-subtitle 1.5 BLUEHDI 130 S&amp;S SHINE EAT8
+                                    ul
+                                        li
+                                            i.fas.fa-gas-pump
+                                            | Diesel
+                                        li
+                                            i.fas.fa-cogs
+                                            | Automatique
+                                        li
+                                            i.fas.fa-road
+                                            | 50 km
+                                        li
+                                            i.fas.fa-calendar-alt
+                                            | 2019
+                                    p.resultat-price
+                                        b 29 900 €
