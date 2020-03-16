@@ -7,6 +7,7 @@ const createError = require('http-errors');
 const express = require('express');
 const app = express();
 const parser = require('body-parser');
+app.use(parser({limit: '50mb'}));
 const logger = require('morgan');
 
 const database = require('./utils/db');
