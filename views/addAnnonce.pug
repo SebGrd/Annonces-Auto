@@ -1,0 +1,24 @@
+extends pug-layout/_layout
+block content
+    input(type="file" multiple)#inputfile
+    button#go Go
+    #img
+
+
+
+    script.
+        document.getElementById('go').addEventListener('click', function() {
+            const input = document.getElementById('inputfile');
+            let files = input.files;
+            for (let index=0; index < files.length; index++){
+                let reader = new FileReader();
+                reader.readAsDataURL(files[index]);
+                reader.onload = function(e){
+                    let fileData = e.target.result.toString();
+                    console.log(fileData);
+                    let image = new Image();
+                    image.src = fileData;
+                    document.getElementById('img').appendChild(image);
+                }
+            }
+        });
