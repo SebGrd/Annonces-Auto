@@ -26,13 +26,14 @@ views.get('/liste-annonces/:id', (req, res, next) => {
                 port: 2727}
         })
         .then( result =>{
+            console.log(result.data);
             carData = result.data;
             res.status(200);
             res.render('single-annonce', {title: 'Liste des annonces', car: carData.car});
         })
         .catch( err => {
-            console.log(err);
-            res.status(200);
+            res.status(404);
+            res.render('404', {title: '404'});
         });
 
 });
