@@ -4,33 +4,39 @@ const {objToUpdateMongoose} = require('./../utils/utils');
 exports.getAnnonce = (req, res, next) => {
 
     if (req.query.id && req.query.id.match(/^[0-9a-fA-F]{24}$/)) { //SI OBJECT ID
-        database.annonceModel.findOne({_id: req.query.id})
+        database.annonceModel.findOne({_id: {$eq: req.query.id}})
             .then((annonce) => {
                 req.annonces = annonce;
                 next();
             })
             .catch((err) => {
-                console.log(err);
+                console.log('Find one id : '+ err);
                 res.status(500);
                 res.json({"error": "Internal server error"});
             });
 
     } else {
-        database.annonceModel.find(req.body)
-            .then((annonces) => {
-                if (annonces.length) {
-                    req.annonces = annonces;
-                    next();
-                } else {
-                    res.status(404);
-                    res.json({"message": "No posts found for : " + JSON.stringify(req.body)});
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                res.status(500);
-                res.json({"error": "Internal server error"});
-            });
+        if (!req.query.id && req.body){
+            database.annonceModel.find(req.body)
+                .then((annonces) => {
+                    if (annonces.length) {
+                        req.annonces = annonces;
+                        next();
+                    } else {
+                        res.status(404);
+                        res.json({"message": "No posts found for : " + JSON.stringify(req.body)});
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    res.status(500);
+                    res.json({"error": "Internal server error"});
+                });
+        }
+        else {
+            res.status(404);
+            res.json({"message": "Not a good ID and no Body provided"});
+        }
     }
 };
 
