@@ -25,6 +25,9 @@ const Annonce = mongoose.model(
             type: String,
             required: true
         },
+        images: [{
+            type: String
+        }],
         price: {
             type: Number,
             required: true
@@ -88,7 +91,7 @@ exports.annonceModel = Annonce;
 const User = mongoose.model(
     'User',
     {
-        username:  {
+        username: {
             type: String,
             required: true
         },

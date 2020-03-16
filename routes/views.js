@@ -40,4 +40,11 @@ views.get('/liste-annonces/:id', (req, res, next) => {
 
 });
 
+
+//Ajouter annonce
+views.get('/ajouter-une-annonce', (req, res, next) => {
+   res.status(200);
+   res.render('addAnnonce', {title: 'Ajouter une annonce'});
+});
+
 module.exports = views;

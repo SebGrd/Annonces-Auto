@@ -9789,6 +9789,54 @@ h3 {
     border-color: #dee2e6;
   }
 }
+@font-face {
+  font-family: "Asap";
+  src: url("/css/font/Asap-BoldItalic.woff2") format("woff2"), url("/css/font/Asap-BoldItalic.woff") format("woff");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Asap";
+  src: url("/css/font/Asap-MediumItalic.woff2") format("woff2"), url("/css/font/Asap-MediumItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Asap";
+  src: url("/css/font/Asap-SemiBold.woff2") format("woff2"), url("/css/font/Asap-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Asap";
+  src: url("/css/font/Asap-Medium.woff2") format("woff2"), url("/css/font/Asap-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Asap";
+  src: url("/css/font/Asap-Regular.woff2") format("woff2"), url("/css/font/Asap-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Asap";
+  src: url("/css/font/Asap-Bold.woff2") format("woff2"), url("/css/font/Asap-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Asap";
+  src: url("/css/font/Asap-Italic.woff2") format("woff2"), url("/css/font/Asap-Italic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Asap";
+  src: url("/css/font/Asap-SemiBoldItalic.woff2") format("woff2"), url("/css/font/Asap-SemiBoldItalic.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+}
 body {
   font-family: Asap, sans-serif;
 }
@@ -9886,6 +9934,22 @@ body {
 
 .ac-line-bottom-secondary:before {
   background: #462eaa;
+}
+
+#file-img-preview {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px;
+  background: #80808047;
+  border-radius: 4px;
+}
+#file-img-preview img {
+  margin: 0 8px;
+  max-width: 18%;
+}
+#file-img-preview img:first-child {
+  margin-left: 0;
 }
 
 header {

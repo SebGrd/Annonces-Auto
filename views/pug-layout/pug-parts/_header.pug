@@ -4,8 +4,8 @@ head
     meta(name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0')
     meta(http-equiv='X-UA-Compatible' content='ie=edge')
     title Annonces Auto | #{ title }
-    link(href='https://fonts.googleapis.com/css?family=Asap:400,500,600,700&display=swap' rel='stylesheet')
     link(rel='stylesheet' href='/lib/slick/slick.css')
+    link(rel='stylesheet' href='/lib/fontawesome/css/all.min.css')
     link(rel='stylesheet' href='/css/style.css')
 header
     .container
@@ -34,7 +34,7 @@ header
                             a.has-child(href='#') Vendre
                             ul.nav-dropdown
                                 li
-                                    a.font-weight-bold(href='#') Déposer une annonce
+                                    a.font-weight-bold(href='/ajouter-une-annonce') Déposer une annonce
                                 li.separated
                                     a(href='#') Calculer les chevaux fiscaux de son véhicule
                                 li
