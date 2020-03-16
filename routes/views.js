@@ -18,25 +18,23 @@ views.get('/liste-annonces', (req, res, next) => {
 views.get('/liste-annonces/:id', (req, res, next) => {
 
     axios.get(
-        '/api/annonce',
+        '/api/annonce/?id='+req.params.id,
         {
-            data:{
-                _id: req.params.id
-            },
             headers: {
-                'x-api-key': process.env.API_KEY
-            },
+                'x-api-key': process.env.API_KEY},
             proxy: {
-                port: 2727
-            }
+                port: 2727}
         })
         .then( result =>{
-            console.log(result.data)
+            carData = result.data;
+            res.status(200);
+            res.render('single-annonce', {title: 'Liste des annonces', car: carData.car});
         })
-        .catch( err => console.log(err));
+        .catch( err => {
+            console.log(err);
+            res.status(200);
+        });
 
-    res.status(200);
-    res.render('single-annonce', {title: 'Liste des annonces'});
 });
 
 module.exports = views;
