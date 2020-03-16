@@ -31,8 +31,8 @@ app.use('/', views);
 database.connect();
 
 
-app.listen(2727, () => {
-    console.log(logOk('Server running on 2727'))
+app.listen(process.env.SERVER_PORT, () => {
+    console.log(logOk('Server running on port :' + process.env.SERVER_PORT))
 });
 
 

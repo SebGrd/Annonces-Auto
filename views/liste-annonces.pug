@@ -44,7 +44,32 @@ block content
                                 button.btn.btn-secondary(type='submit') Rechercher
 
                 .col-9.liste-resultat
-                    h2 125 résultats :
+                    h2 #{annonces.length } résultats :
+                    each annonce in annonces
+                        .resultat
+                            .row
+                                .col-4
+                                    .resultat-img
+                                        img.img-fluid(src='/img/annonce2.jpg' alt='')
+                                .col-8
+                                    .resultat-content
+                                        h3.resultat-title #{annonce.car.brand} #{annonce.car.model}
+                                        h4.resultat-subtitle #{annonce.car.details.version}
+                                        ul
+                                            li
+                                                i.fas.fa-gas-pump
+                                                | #{annonce.car.details.energy}
+                                            li
+                                                i.fas.fa-cogs
+                                                | #{annonce.car.details.transmission}
+                                            li
+                                                i.fas.fa-road
+                                                | #{annonce.car.details.km}
+                                            li
+                                                i.fas.fa-calendar-alt
+                                                | #{annonce.car.details.productionYear}
+                                        p.resultat-price
+                                            b #{annonce.price} €
                     .resultat
                         .row
                             .col-4

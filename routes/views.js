@@ -1,6 +1,8 @@
 const express = require('express');
 const views = express.Router();
 const axios = require('axios');
+axios.defaults.proxy = {port: process.env.SERVER_PORT};
+
 
 //Home
 views.get('/', (req, res, next) => {
@@ -10,26 +12,26 @@ views.get('/', (req, res, next) => {
 
 //Liste annonces
 views.get('/liste-annonces', (req, res, next) => {
-    res.status(200);
-    res.render('liste-annonces', {title: 'Liste des annonces'});
+    axios.get('/api/annonce')
+        .then( result => {
+            annonces = result.data;
+            res.status(200);
+            res.render('liste-annonces', {title: 'Liste des annonces', annonces: annonces});
+        })
+        .catch( err => {
+            res.status(404);
+            res.render('404', {title: '404'});
+        });
 });
 
 //Single annonce
 views.get('/liste-annonces/:id', (req, res, next) => {
 
-    axios.get(
-        '/api/annonce/?id='+req.params.id,
-        {
-            headers: {
-                'x-api-key': process.env.API_KEY},
-            proxy: {
-                port: 2727}
-        })
+    axios.get('/api/annonce/?id='+req.params.id,)
         .then( result =>{
-            console.log(result.data);
             carData = result.data;
             res.status(200);
-            res.render('single-annonce', {title: 'Liste des annonces', car: carData.car});
+            res.render('single-annonce', {title: carData.car.brand+' '+carData.car.model, car: carData.car});
         })
         .catch( err => {
             res.status(404);
