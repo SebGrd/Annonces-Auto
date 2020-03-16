@@ -1,24 +1,78 @@
 extends pug-layout/_layout
 block content
-    input(type="file" multiple)#inputfile
-    button#go Go
-    #img
+    .container
+        form#addAnnonce(method='post' action='#' autocomplete='off')
+            .form-group
+                label(for='car-brand') Marque
+                select#car-brand.form-control(name='car-brand' required)
+                    option(value='0') Choisissez une marque
+            .form-group
+                label(for='car-model') Modèle
+                select#car-model.form-control(name='car-model' required disabled)
+                    option(value='0') Choisissez un modèle
+                small.form-text.text-muted Merci de selectionner une marque.
+            .form-group
+                label(for='car-details-version') Version
+                input#car-details-version.form-control(name='car-details-version' type='text' required)
+            .form-group
+                label(for='car-details-energy') Energie
+                select#car-details-energy.form-control(name='car-details-energy' required)
+                    option(value='0') Choisissez un type d'énergie
+                    option(value='Diesel') Diesel
+                    option(value='Essence') Essence
+                    option(value='Electrique') Electrique
+                    option(value='GPL') GPL
+            .form-group
+                label(for='car-details-doors') Portes
+                input#car-details-doors.form-control(name='car-details-doors' type='number' required)
+            .form-group
+                label(for='car-details-places') Places
+                input#car-details-places.form-control(name='car-details-places' type='number' required)
+            .form-group
+                label(for='car-details-color') Couleur
+                input#car-details-color.form-control(name='car-details-color' type='text' required)
+            .form-group
+                label(for='car-details-km') Kilométrage
+                input#car-details-km.form-control(name='car-details-km' type='number' required)
+            .form-group
+                label(for='car-details-transmission') Transmission
+                select#car-details-transmission.form-control(name="car-details-transmission" required)
+                    option(value='0') Choisissez une transmission
+                    option(value='Automatique') Automatique
+                    option(value='Manuelle') Manuelle
+            .form-group
+                label(for='car-details-hp') Puissance(CH)
+                input#car-details-hp.form-control(name='car-details-hp' type='number' required)
+            .form-group
+                label(for='car-details-cv') Puissance(CV)
+                input#car-details-cv.form-control(name='car-details-cv' type='number' required)
+            .form-group
+                label(for='car-details-productionYear') Année de production
+                input#car-details-productionYear.form-control(name='car-details-productionYear' type='number' required)
+            .form-group
+                label(for='car-images') Images (5 maximum)
+                input#car-images.form-control-file(type='file' multiple)
+                #file-img-preview.mt-3
+            button.btn.btn-primary(type='submit') Créer l'annonce
+            
+
 
 
 
     script.
-        document.getElementById('go').addEventListener('click', function() {
-            const input = document.getElementById('inputfile');
+        document.getElementById('car-images').addEventListener('change', function() {
+            const input = document.getElementById('car-images');
+            const imgContainer = document.getElementById('file-img-preview');
+            imgContainer.innerHTML = '';
             let files = input.files;
             for (let index=0; index < files.length; index++){
                 let reader = new FileReader();
                 reader.readAsDataURL(files[index]);
                 reader.onload = function(e){
                     let fileData = e.target.result.toString();
-                    console.log(fileData);
                     let image = new Image();
                     image.src = fileData;
-                    document.getElementById('img').appendChild(image);
+                    imgContainer.appendChild(image);
                 }
             }
         });
