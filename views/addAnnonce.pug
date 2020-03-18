@@ -1,66 +1,145 @@
 extends pug-layout/_layout
 block content
     .container
-        form#addAnnonce(method='post' action='#' autocomplete='off')
-            .form-group
-                label(for='car-brand') Marque
-                select#car-brand.form-control(name='car-brand' required)
-                    option(value='0') Choisissez une marque
-            .form-group
-                label(for='car-model') Modèle
-                select#car-model.form-control(name='car-model' required disabled)
-                    option(value='0') Choisissez un modèle
-                small.form-text.text-muted Merci de selectionner une marque.
-            .form-group
-                label(for='car-details-version') Version
-                input#car-details-version.form-control(name='car-details-version' type='text' required)
-            .form-group
-                label(for='car-details-energy') Energie
-                select#car-details-energy.form-control(name='car-details-energy' required)
-                    option(value='0') Choisissez un type d'énergie
-                    option(value='Diesel') Diesel
-                    option(value='Essence') Essence
-                    option(value='Electrique') Electrique
-                    option(value='GPL') GPL
-            .form-group
-                label(for='car-details-doors') Portes
-                input#car-details-doors.form-control(name='car-details-doors' type='number' required)
-            .form-group
-                label(for='car-details-places') Places
-                input#car-details-places.form-control(name='car-details-places' type='number' required)
-            .form-group
-                label(for='car-details-color') Couleur
-                input#car-details-color.form-control(name='car-details-color' type='text' required)
-            .form-group
-                label(for='car-details-km') Kilométrage
-                input#car-details-km.form-control(name='car-details-km' type='number' required)
-            .form-group
-                label(for='car-details-transmission') Transmission
-                select#car-details-transmission.form-control(name="car-details-transmission" required)
-                    option(value='0') Choisissez une transmission
-                    option(value='Automatique') Automatique
-                    option(value='Manuelle') Manuelle
-            .form-group
-                label(for='car-details-hp') Puissance(CH)
-                input#car-details-hp.form-control(name='car-details-hp' type='number' required)
-            .form-group
-                label(for='car-details-cv') Puissance(CV)
-                input#car-details-cv.form-control(name='car-details-cv' type='number' required)
-            .form-group
-                label(for='car-details-productionYear') Année de production
-                input#car-details-productionYear.form-control(name='car-details-productionYear' type='number' required)
-            .form-group
-                label(for='car-images') Images (5 maximum)
-                input#car-images.form-control-file(type='file' multiple)
-                #file-img-preview.mt-3
-            button.btn.btn-primary(type='submit') Créer l'annonce
-            
+        h1 Ajouter une annonce
+        #step-progress.my-4
+            p.mb-0 Etape
+                span#now-step
+                | /
+                span#total-step
+            .progress(style='height:3px')
+                .progress-bar(style='width:0%')
+        form#addAnnonce.form-step(method='post' action='#' autocomplete='off')
+            #step-0.step
+                .form-row
+                    .col-6
+                        label(for='car-brand') Marque
+                        select#car-brand.form-control(name='car-brand' required)
+                            option(value='0') Choisissez une marque
+                    .col-6
+                        label(for='car-model') Modèle
+                        select#car-model.form-control(name='car-model' required disabled)
+                            option(value='0') Choisissez un modèle
+                        small.form-text.text-muted Merci de selectionner une marque.
+            #step-1.step
+                .form-group
+                    label(for='car-details-version') Version
+                    input#car-details-version.form-control(name='car-details-version' type='text' required)
+                    small.form-text.text-muted Exemple :
+                        i "II 1.6 E-HDI 115 CONFORT"
+            #step-2.step
+                .form-row
+                    .col-1
+                        label(for='car-details-doors') Portes
+                        input#car-details-doors.form-control(name='car-details-doors' type='number' min="0" max='20' required)
+                    .col-1
+                        label(for='car-details-places') Places
+                        input#car-details-places.form-control(name='car-details-places' min="0" max='20' type='number' required)
+                    .col-12
+                        label(for='car-details-color') Couleur
+                        input#car-details-color.form-control(name='car-details-color' type='color' required)
+            #step-3.step
+                .form-row
+                    .col-4
+                        label(for='car-details-energy') Energie
+                        select#car-details-energy.form-control(name='car-details-energy' required)
+                            option(value='0') Choisissez un type d'énergie
+                            option(value='Diesel') Diesel
+                            option(value='Essence') Essence
+                            option(value='Electrique') Electrique
+                            option(value='GPL') GPL
+                    .col-4
+                        label(for='car-details-productionYear') Année de production
+                        input#car-details-productionYear.form-control.datepicker-yyyy(name='car-details-productionYear' type='text' required)
+                    .col-4
+                        label(for='car-details-transmission') Transmission
+                        select#car-details-transmission.form-control(name="car-details-transmission" required)
+                            option(value='0') Choisissez une transmission
+                            option(value='Automatique') Automatique
+                            option(value='Manuelle') Manuelle
+                    .col-4
+                        label(for='car-details-hp') Puissance(CH)
+                        input#car-details-hp.form-control(name='car-details-hp' type='number' min="0" required)
+                    .col-4
+                        label(for='car-details-cv') Puissance(CV)
+                        input#car-details-cv.form-control(name='car-details-cv' type='number' min="0" required)
+                    .col-4
+                        label(for='car-details-km') Kilométrage
+                        input#car-details-km.form-control(name='car-details-km' type='number' min="0" required)
+            #step-4.step
+                .form-group
+                    label(for='car-images') Images (5 maximum)
+                    input#car-images.form-control-file(type='file' multiple)
+                    #file-img-preview.mt-3
+            #step-5.step
+                .form-group
+                    label(for='content') Description (informations supplémentaires)
+                    textarea#content.form-control(rows='6')
+            #step-6.step
+                h2 Prévisualiser votre annonce
+                button.btn.btn-primary(type='submit') Créer l'annonce
+            hr
+            .d-flex.justify-content-end.my-4
+                span#step-previous.btn.btn-outline-primary.mr-3 Précédent
+                span#step-next.btn.btn-primary Suivant
+
 
 
 
 
     script.
-        document.getElementById('car-images').addEventListener('change', function() {
+
+        let step = 0;
+        const form = document.getElementsByClassName('form-step')[0];
+        const formStep = form.getElementsByClassName('step');
+        const nextStep = document.getElementById('step-next');
+        const previousStep = document.getElementById('step-previous');
+        previousStep.style.display = 'none'; //INIT
+        const progressStep = document.getElementById('step-progress');
+        const nowStep = document.getElementById('now-step');
+        const totalStep = document.getElementById('total-step');
+        nowStep.innerText = ' ' + (step + 1).toString();
+        totalStep.innerText = formStep.length.toString();
+
+
+        nextStep.addEventListener('click', () => {
+            document.getElementById('step-'+ step).style.display = 'none';
+            step++;
+            document.getElementById('step-'+ step).style.display = 'block';
+            let completionPercentage = (step / (formStep.length - 1)) * 100;
+            progressStep.getElementsByClassName('progress-bar')[0].style.width = completionPercentage+'%';
+
+            if (step !== 0) { //First step
+                previousStep.style.display = 'block';
+            }
+
+            if (step === formStep.length - 1){ //Last step
+                nextStep.style.display = 'none';
+            }
+
+            nowStep.innerText = ' ' + (step + 1).toString();
+        });
+        previousStep.addEventListener('click', () => {
+            if (step === formStep.length - 1) { //Last step
+                nextStep.style.display = 'inline-block';
+            }
+
+            document.getElementById('step-' + step).style.display = 'none';
+            step--;
+            document.getElementById('step-' + step).style.display = 'block';
+            let completionPercentage = (step / (formStep.length - 1)) * 100;
+            progressStep.getElementsByClassName('progress-bar')[0].style.width = completionPercentage + '%';
+
+            if (step === 0) { //First step
+                previousStep.style.display = 'none';
+            }
+
+            nowStep.innerText = ' ' + (step + 1).toString();
+        });
+
+
+
+        document.getElementById('car-images').addEventListener('change', () => {
             const input = document.getElementById('car-images');
             const imgContainer = document.getElementById('file-img-preview');
             imgContainer.innerHTML = '';

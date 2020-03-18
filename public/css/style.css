@@ -9940,16 +9940,22 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 8px;
   background: #80808047;
   border-radius: 4px;
 }
 #file-img-preview img {
-  margin: 0 8px;
+  margin: 8px;
   max-width: 18%;
 }
-#file-img-preview img:first-child {
-  margin-left: 0;
+
+.form-step .step {
+  display: none;
+}
+.form-step .step.step-active {
+  display: block;
+}
+.form-step .step#step-0 {
+  display: block;
 }
 
 header {

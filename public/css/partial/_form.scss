@@ -2,14 +2,22 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 8px;
   background: #80808047;
   border-radius: 4px;
   img{
-    margin: 0 8px;
+    margin: 8px;
     max-width: 18%;
-    &:first-child{
-      margin-left: 0;
+  }
+}
+
+.form-step{
+  .step{
+    display: none;
+    &.step-active{
+      display: block;
+    }
+    &#step-0{
+      display: block;
     }
   }
 }
