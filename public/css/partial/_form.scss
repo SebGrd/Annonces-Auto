@@ -21,3 +21,24 @@
     }
   }
 }
+
+#addAnnonce{
+  select{
+    height: 100px;
+    font-size: 24px;
+    border-radius: 0;
+  }
+  input[type="text"], input[type="number"]{
+    height: 100px;
+    font-size: 34px;
+    border-radius: 0;
+    text-align: center;
+  }
+  input[type="color"]{
+    height: 80px;
+    width: 80px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+  }
+}
