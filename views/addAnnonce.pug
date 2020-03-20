@@ -11,6 +11,7 @@ block content
                 .progress-bar(style='width:0%')
         form#addAnnonce.form-step.text-center.my-5(method='post' action='#' autocomplete='off')
             #step-0.step
+                h3.mb-4 Véhicule
                 .form-row
                     .col-5.offset-1
                         label(for='car-brand') Marque
@@ -22,6 +23,7 @@ block content
                             option(value='0') Choisissez un modèle
                         small.form-text.text-muted Merci de selectionner une marque.
             #step-1.step
+                h3.mb-4 Version de votre véhicule
                 .form-row
                     .col-10.offset-1
                         label(for='car-details-version') Version
@@ -29,6 +31,7 @@ block content
                         small.form-text.text-muted Exemple :
                             i "II 1.6 E-HDI 115 CONFORT"
             #step-2.step
+                h3.mb-4 Aspects du véhicule
                 .form-row
                     .col-5.offset-1
                         label(for='car-details-doors') Portes
@@ -40,6 +43,7 @@ block content
                         label(for='car-details-color') Couleur
                         input#car-details-color.form-control(name='car-details-color' type='color' required)
             #step-3.step
+                h3.mb-4 Détails techniques du véhicule
                 .form-row
                     .col-5.offset-1
                         label(for='car-details-energy') Energie
@@ -69,18 +73,23 @@ block content
                         label(for='car-details-km') Kilométrage
                         input#car-details-km.form-control(name='car-details-km' type='number' min="0" required)
             #step-4.step
+                h3.mb-4 Photos du véhicule
                 .form-row
                     .col-10.offset-1.d-flex.align-items-center.flex-column
                         label(for='car-images') Images (5 maximum)
                         input#car-images.form-control-file.w-auto(type='file' multiple)
                         #file-img-preview.mt-3
             #step-5.step
+                h3.mb-4 Description de l'annonce
                 .form-row
                     .col-10.offset-1
                         label(for='content') Description (informations supplémentaires)
                         textarea#content.form-control(rows='6')
             #step-6.step
-                h2 Prévisualiser votre annonce
+                h3.mb-4 Prévisualisez votre annonce
+                .border.rounded
+                    p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores autem facere fuga nemo nostrum
+                    | officia officiis, quibusdam, quo repudiandae ullam unde ut, vero. Assumenda beatae mollitia necessitatibus odit quo, veniam.
                 button.btn.btn-primary(type='submit') Créer l'annonce
             hr.mt-5
             .d-flex.justify-content-end.my-4
@@ -107,17 +116,17 @@ block content
 
 
         nextStep.addEventListener('click', () => {
-            document.getElementById('step-'+ step).style.display = 'none';
+            document.getElementById('step-' + step).style.display = 'none';
             step++;
-            document.getElementById('step-'+ step).style.display = 'block';
+            document.getElementById('step-' + step).style.display = 'block';
             let completionPercentage = (step / (formStep.length - 1)) * 100;
-            progressStep.getElementsByClassName('progress-bar')[0].style.width = completionPercentage+'%';
+            progressStep.getElementsByClassName('progress-bar')[0].style.width = completionPercentage + '%';
 
             if (step !== 0) { //First step
                 previousStep.style.display = 'block';
             }
 
-            if (step === formStep.length - 1){ //Last step
+            if (step === formStep.length - 1) { //Last step
                 nextStep.style.display = 'none';
             }
 
@@ -148,10 +157,10 @@ block content
             const imgContainer = document.getElementById('file-img-preview');
             imgContainer.innerHTML = '';
             let files = input.files;
-            for (let index=0; index < files.length; index++){
+            for (let index = 0; index < files.length; index++) {
                 let reader = new FileReader();
                 reader.readAsDataURL(files[index]);
-                reader.onload = function(e){
+                reader.onload = function (e) {
                     let fileData = e.target.result.toString();
                     let image = new Image();
                     image.src = fileData;
