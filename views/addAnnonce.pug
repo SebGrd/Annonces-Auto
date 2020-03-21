@@ -146,7 +146,6 @@ block content
                 'step-6': ['price'],
                 'step-7': [],
             };
-
             let emptyFields = [];
             stepsFields[step].forEach( function (field) {
                 let fieldValue = document.getElementById(field).value;
@@ -154,22 +153,39 @@ block content
                     emptyFields.push(field);
                 }
             });
-
             return emptyFields;
-
         };
+
+        function translateDictionnary(id){
+            const fieldIdDictionary = {
+                'car-brand' : 'Marque',
+                'car-model' : 'Modèle',
+                'car-details-version' : 'Version',
+                'car-details-doors' : 'Portes',
+                'car-details-places' : 'Places',
+                'car-details-color' : 'Couleur',
+                'car-details-energy' : 'Energie',
+                'car-details-transmission' : 'Transmission',
+                'car-details-cv' : 'Puissance(CV)',
+                'car-details-hp' : 'Puissance(CH)',
+                'car-details-productionYear' : 'Année de production',
+                'car-details-km' : 'Kilométrage',
+                'car-images' : 'Photos du véhicule',
+                'content' : 'Description de l\'annonce',
+                'price' : 'Prix'
+            }
+            return fieldIdDictionary[id];
+        }
 
 
         nextStep.addEventListener('click', () => {
-
             const fieldsError = checkFieldStep('step-'+step);
-            console.log(fieldsError);
             document.getElementById('fields-error').innerHTML = '';
             if (fieldsError.length > 0){
                 document.getElementById('step-error').style.display = 'block';
                 fieldsError.forEach( function (field) {
                     let error = document.createElement('li');
-                    error.innerText = field
+                    error.innerText = translateDictionnary(field);
                     document.getElementById('fields-error').appendChild(error);
                 })
             } else{
