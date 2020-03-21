@@ -1,7 +1,20 @@
 ul.list-2{
   @include structuredList(2);
 }
+ul.aligned-items{
+  li{
+    display: flex;
+    align-items: center;
+  }
+}
 
 .sticky-card{
   z-index: 1;
+}
+
+.color-square{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
 }

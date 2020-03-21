@@ -17,24 +17,33 @@ block content
 
             .row
                 .col-8
-                    ul.list-2.my-4
-                        li Couleur :
-                            b  #{annonce.car.details.color}
-                        li Places :
-                            b  #{annonce.car.details.places}
-                        li Portes :
-                            b  #{annonce.car.details.places}
-                        li Kilométrage :
-                            b  #{annonce.car.details.km}km
-                        li Energie :
-                            b  #{annonce.car.details.energy}
-                        li Année de production :
-                            b  #{annonce.car.details.productionYear}
-                        li Transmission :
-                            b  #{annonce.car.details.transmission}
-                        li Chevaux (dynamiques) :
-                            b  #{annonce.car.details.hp}ch
-                        li Chevaux (fiscaux) :
-                            b  #{annonce.car.details.cf}cv
+                    ul.list-2.my-4.aligned-items
+                        li
+                            span Couleur :
+                            span.color-square.ml-2(style='background:'+annonce.car.details.color)
+                        li
+                            span Places :
+                                b  #{annonce.car.details.places}
+                        li
+                            span Portes :
+                                b  #{annonce.car.details.places}
+                        li
+                            span Kilométrage :
+                                b  #{annonce.car.details.km}km
+                        li
+                            span Energie :
+                                b  #{annonce.car.details.energy}
+                        li
+                            span Année de production :
+                                b  #{annonce.car.details.productionYear}
+                        li
+                            span Transmission :
+                                b  #{annonce.car.details.transmission}
+                        li
+                            span Chevaux (dynamiques) :
+                                b  #{annonce.car.details.hp}ch
+                        li
+                            span Chevaux (fiscaux) :
+                                b  #{annonce.car.details.cf}cv
                     h3 Informations complémentaires
                     p #{annonce.content}
