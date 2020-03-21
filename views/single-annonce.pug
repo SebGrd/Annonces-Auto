@@ -1,7 +1,40 @@
 extends pug-layout/_layout
 block content
-    section.single-annonce
+    section.single-annonce.my-5
         .container
-            h1 #{annonce.car.brand} #{annonce.car.model}
-            code
-                = JSON.stringify(annonce)
+            .row
+                .col-8
+                    each image, index in annonce.images
+                        img.img-fluid(src=image alt=annonce.car.brand + ' ' + annonce.car.model + ' - ' + annonce.car.details.version + ' n°' + (index + 1))
+                .col-4
+                    .card.sticky-card.shadow.border-0.sticky-top
+                        .card-body
+                            h1.card-title.mb-0.h3 #{annonce.car.brand} #{annonce.car.model}
+                            h2.card-subtitle.h6.text-muted  #{annonce.car.details.version}
+                            p.card-text.h1.my-4 #{annonce.price} €
+                            p Vendeur : #{annonce.user}
+                            a.btn.btn-primary.w-100(href='#') Contactez le vendeur
+
+            .row
+                .col-8
+                    ul.list-2.my-4
+                        li Couleur :
+                            b  #{annonce.car.details.color}
+                        li Places :
+                            b  #{annonce.car.details.places}
+                        li Portes :
+                            b  #{annonce.car.details.places}
+                        li Kilométrage :
+                            b  #{annonce.car.details.km}km
+                        li Energie :
+                            b  #{annonce.car.details.energy}
+                        li Année de production :
+                            b  #{annonce.car.details.productionYear}
+                        li Transmission :
+                            b  #{annonce.car.details.transmission}
+                        li Chevaux (dynamiques) :
+                            b  #{annonce.car.details.hp}ch
+                        li Chevaux (fiscaux) :
+                            b  #{annonce.car.details.cf}cv
+                    h3 Informations complémentaires
+                    p #{annonce.content}

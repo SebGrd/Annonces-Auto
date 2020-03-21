@@ -1,0 +1,7 @@
+ul.list-2{
+  @include structuredList(2);
+}
+
+.sticky-card{
+  z-index: 1;
+}
