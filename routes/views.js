@@ -1,6 +1,7 @@
 const express = require('express');
 const views = express.Router();
 const axios = require('axios');
+const database = require('./../utils/db');
 axios.defaults.proxy = {port: process.env.SERVER_PORT};
 
 
@@ -46,9 +47,19 @@ views.get('/liste-annonces/annonce/:id', (req, res) => {
 
 
 //Ajouter annonce
-views.get('/ajouter-une-annonce', (req, res) => {
-   res.status(200);
-   res.render('addAnnonce', {title: 'Ajouter une annonce'});
+views.get('/ajouter-une-annonce', async (req, res) => {
+
+    await database.carModel.distinct('brand')
+        .then(brands => {
+            res.status(200);
+            res.render('addAnnonce', {title: 'Ajouter une annonce', brands: brands});
+        })
+        .catch(err => {
+            res.status(500);
+            res.json({"message" : err.message});
+        });
+
+
 });
 
 module.exports = views;

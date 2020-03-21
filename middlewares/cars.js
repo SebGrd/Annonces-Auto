@@ -8,7 +8,8 @@ exports.getCar = (req, res, next) => {
     req.query.brand ? car.brand = req.query.brand : null;
     req.query.model ? car.model = req.query.model : null;
 
-    database.carModel.find(car)
+
+    database.carModel.find(car).sort(req.query.sortBy)
         .then((cars) => {
             if (cars.length) { //SI ELEMENT TROUVED
                 req.cars = cars;

@@ -10302,8 +10302,27 @@ ul.list-2 > * {
   width: 50%;
 }
 
+ul.aligned-items li {
+  display: flex;
+  align-items: center;
+}
+
 .sticky-card {
   z-index: 1;
+}
+
+.color-square {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
+
+#car-model-warn {
+  position: absolute;
+  left: 50%;
+  bottom: -24px;
+  transform: translateX(-50%);
 }
 
 @media (max-width: 1199px) {

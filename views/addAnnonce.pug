@@ -12,16 +12,18 @@ block content
         form#addAnnonce.form-step.text-center.my-5(method='post' action='#' autocomplete='off')
             #step-0.step
                 h3.mb-4 Véhicule
-                .form-row
+                .form-row.pb-4
                     .col-5.offset-1
                         label(for='car-brand') Marque
                         select#car-brand.form-control(name='car-brand' required)
                             option(value='0') Choisissez une marque
+                            each brand in brands
+                                option(value=brand) #{brand}
                     .col-5
                         label(for='car-model') Modèle
                         select#car-model.form-control(name='car-model' required disabled)
                             option(value='0') Choisissez un modèle
-                        small.form-text.text-muted Merci de selectionner une marque.
+                        small#car-model-warn.form-text.text-muted Merci de selectionner une marque.
             #step-1.step
                 h3.mb-4 Version de votre véhicule
                 .form-row
@@ -120,7 +122,6 @@ block content
         nowStep.innerText = ' ' + (step + 1).toString();
         totalStep.innerText = formStep.length.toString();
 
-
         nextStep.addEventListener('click', () => {
             document.getElementById('step-' + step).style.display = 'none';
             step++;
@@ -156,8 +157,7 @@ block content
             nowStep.innerText = ' ' + (step + 1).toString();
         });
 
-
-
+        //IMAGE UPLOAD
         document.getElementById('car-images').addEventListener('change', () => {
             const input = document.getElementById('car-images');
             const imgContainer = document.getElementById('file-img-preview');
@@ -173,4 +173,37 @@ block content
                     imgContainer.appendChild(image);
                 }
             }
+        });
+
+        //BRAND
+        const modelSelect = document.getElementById('car-model')
+        const modelSelectWarn = document.getElementById('car-model-warn')
+        document.getElementById('car-brand').addEventListener('change', (e) => {
+            modelSelect.innerHTML = '<option value="0">Choisissez un modèle</option>';
+            if (e.target.value === '0'){
+                modelSelect.setAttribute('disabled', '');
+                modelSelectWarn.style.display = 'block';
+            } else{
+                fetch('/api/car?sortBy=model&brand=' + e.target.value)
+                    .then(function (result) {
+                        result.json()
+                            .then(function (data) {
+                                modelSelect.removeAttribute('disabled');
+                                modelSelectWarn.style.display = 'none';
+                                data.forEach(function(car){
+                                    let option = document.createElement('option')
+                                    option.setAttribute('value', car.model)
+                                    option.innerText = car.model;
+                                    modelSelect.appendChild(option);
+                                });
+                            })
+                            .catch(function (err) {
+                                console.log(err);
+                            })
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    })
+            }
+
         });
