@@ -4,3 +4,22 @@
   bottom: -24px;
   transform: translateX(-50%);
 }
+
+#step-next{
+  position: relative;
+  .error-popup{
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(100% + 4px);
+    width: 205px;
+    padding: 8px;
+    background: white;
+    text-align: left;
+    color: $danger;
+    border-radius: 3px;
+    border: 2px solid $danger;
+    font-size: 14px;
+  }
+}

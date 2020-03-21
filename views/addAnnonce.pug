@@ -16,13 +16,13 @@ block content
                     .col-5.offset-1
                         label(for='car-brand') Marque
                         select#car-brand.form-control(name='car-brand' required)
-                            option(value='0') Choisissez une marque
+                            option(value='null') Choisissez une marque
                             each brand in brands
                                 option(value=brand) #{brand}
                     .col-5
                         label(for='car-model') Modèle
                         select#car-model.form-control(name='car-model' required disabled)
-                            option(value='0') Choisissez un modèle
+                            option(value='null') Choisissez un modèle
                         small#car-model-warn.form-text.text-muted Merci de selectionner une marque.
             #step-1.step
                 h3.mb-4 Version de votre véhicule
@@ -50,7 +50,7 @@ block content
                     .col-5.offset-1
                         label(for='car-details-energy') Energie
                         select#car-details-energy.form-control(name='car-details-energy' required)
-                            option(value='0') Choisissez un type d'énergie
+                            option(value='null') Choisissez un type d'énergie
                             option(value='Diesel') Diesel
                             option(value='Essence') Essence
                             option(value='Electrique') Electrique
@@ -58,7 +58,7 @@ block content
                     .col-5
                         label(for='car-details-transmission') Transmission
                         select#car-details-transmission.form-control(name="car-details-transmission" required)
-                            option(value='0') Choisissez une transmission
+                            option(value='null') Choisissez une transmission
                             option(value='Automatique') Automatique
                             option(value='Manuelle') Manuelle
 
@@ -79,14 +79,16 @@ block content
                 .form-row
                     .col-10.offset-1.d-flex.align-items-center.flex-column
                         label(for='car-images') Images (5 maximum)
-                        input#car-images.form-control-file.w-auto(type='file' multiple)
+                        input#car-images.form-control-file.w-auto(name='images' type='file' multiple)
+                        small.form-text.text-muted Au moins une image est requise
                         #file-img-preview.mt-3
             #step-5.step
                 h3.mb-4 Description de l'annonce
                 .form-row
                     .col-10.offset-1
-                        label(for='content') Description (informations supplémentaires)
+                        label(for='content') Description (informations supplémentaires)*
                         textarea#content.form-control(rows='6' name='content')
+                        small.form-text.text-muted *Champ optionnel
             #step-6.step
                 h3.mb-4 Prix de vente de véhicule
                 .form-row
@@ -103,6 +105,9 @@ block content
             .d-flex.justify-content-end.my-4
                 span#step-previous.btn.btn-outline-primary.mr-3 Précédent
                 span#step-next.btn.btn-primary Suivant
+                    .error-popup#step-error
+                        p.mb-0 Remplir les champs suivants :
+                        ul#fields-error.mb-0
 
 
 
@@ -110,6 +115,7 @@ block content
 
     script.
 
+        //STEP BY STEP FORM
         let step = 0;
         const form = document.getElementsByClassName('form-step')[0];
         const formStep = form.getElementsByClassName('step');
@@ -122,27 +128,77 @@ block content
         nowStep.innerText = ' ' + (step + 1).toString();
         totalStep.innerText = formStep.length.toString();
 
+        function checkFieldStep(step) {
+            const stepsFields = {
+                'step-0': ['car-brand', 'car-model'],
+                'step-1': ['car-details-version'],
+                'step-2': ['car-details-doors', 'car-details-places', 'car-details-color'],
+                'step-3': [
+                'car-details-energy',
+                'car-details-transmission',
+                'car-details-cv',
+                'car-details-hp',
+                'car-details-productionYear',
+                'car-details-km'
+                ],
+                'step-4': ['car-images'],
+                'step-5': [], //opt
+                'step-6': ['price'],
+                'step-7': [],
+            };
+
+            let emptyFields = [];
+            stepsFields[step].forEach( function (field) {
+                let fieldValue = document.getElementById(field).value;
+                if (fieldValue === 'null' || fieldValue.length < 1){
+                    emptyFields.push(field);
+                }
+            });
+
+            return emptyFields;
+
+        };
+
+
         nextStep.addEventListener('click', () => {
-            document.getElementById('step-' + step).style.display = 'none';
-            step++;
-            document.getElementById('step-' + step).style.display = 'block';
-            let completionPercentage = (step / (formStep.length - 1)) * 100;
-            progressStep.getElementsByClassName('progress-bar')[0].style.width = completionPercentage + '%';
 
-            if (step !== 0) { //First step
-                previousStep.style.display = 'block';
+            const fieldsError = checkFieldStep('step-'+step);
+            console.log(fieldsError);
+            document.getElementById('fields-error').innerHTML = '';
+            if (fieldsError.length > 0){
+                document.getElementById('step-error').style.display = 'block';
+                fieldsError.forEach( function (field) {
+                    let error = document.createElement('li');
+                    error.innerText = field
+                    document.getElementById('fields-error').appendChild(error);
+                })
+            } else{
+                document.getElementById('step-error').style.display = 'none';
+
+                document.getElementById('step-' + step).style.display = 'none';
+                step++;
+                document.getElementById('step-' + step).style.display = 'block';
+                let completionPercentage = (step / (formStep.length - 1)) * 100;
+                progressStep.getElementsByClassName('progress-bar')[0].style.width = completionPercentage + '%';
+
+                if (step !== 0) { //First step
+                    previousStep.style.display = 'block';
+                }
+
+                if (step === formStep.length - 1) { //Last step
+                    nextStep.style.display = 'none';
+                }
+
+                nowStep.innerText = ' ' + (step + 1).toString();
             }
 
-            if (step === formStep.length - 1) { //Last step
-                nextStep.style.display = 'none';
-            }
-
-            nowStep.innerText = ' ' + (step + 1).toString();
         });
         previousStep.addEventListener('click', () => {
             if (step === formStep.length - 1) { //Last step
                 nextStep.style.display = 'inline-block';
             }
+
+            document.getElementById('step-error').style.display = 'none';
 
             document.getElementById('step-' + step).style.display = 'none';
             step--;
@@ -156,6 +212,9 @@ block content
 
             nowStep.innerText = ' ' + (step + 1).toString();
         });
+
+
+
 
         //IMAGE UPLOAD
         document.getElementById('car-images').addEventListener('change', () => {
@@ -179,8 +238,8 @@ block content
         const modelSelect = document.getElementById('car-model')
         const modelSelectWarn = document.getElementById('car-model-warn')
         document.getElementById('car-brand').addEventListener('change', (e) => {
-            modelSelect.innerHTML = '<option value="0">Choisissez un modèle</option>';
-            if (e.target.value === '0'){
+            modelSelect.innerHTML = '<option value="null">Choisissez un modèle</option>';
+            if (e.target.value === 'null'){
                 modelSelect.setAttribute('disabled', '');
                 modelSelectWarn.style.display = 'block';
             } else{
