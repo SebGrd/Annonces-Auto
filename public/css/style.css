@@ -10252,6 +10252,9 @@ footer .sub-footer ul li a {
   font-size: 24px;
   margin-bottom: 0;
 }
+.liste-resultat .resultat .resultat-title a {
+  color: #212529;
+}
 .liste-resultat .resultat .resultat-subtitle {
   font-size: 18px;
   color: #777777;

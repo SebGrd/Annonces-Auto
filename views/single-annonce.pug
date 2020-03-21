@@ -2,6 +2,6 @@ extends pug-layout/_layout
 block content
     section.single-annonce
         .container
-            h1 #{car.brand} #{car.model}
+            h1 #{annonce.car.brand} #{annonce.car.model}
             code
-                = JSON.stringify(car)
+                = JSON.stringify(annonce)

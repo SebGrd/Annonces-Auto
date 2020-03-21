@@ -84,8 +84,14 @@ block content
                 .form-row
                     .col-10.offset-1
                         label(for='content') Description (informations supplémentaires)
-                        textarea#content.form-control(rows='6')
+                        textarea#content.form-control(rows='6' name='content')
             #step-6.step
+                h3.mb-4 Prix de vente de véhicule
+                .form-row
+                    .col-6.offset-3
+                        label(for='price') Prix
+                        input#price.form-control(type='number' name="price")
+            #step-7.step
                 h3.mb-4 Prévisualisez votre annonce
                 .border.rounded
                     p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores autem facere fuga nemo nostrum

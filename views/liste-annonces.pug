@@ -53,7 +53,8 @@ block content
                                         img.img-fluid(src=annonce.images[0] alt='')
                                 .col-8
                                     .resultat-content
-                                        h3.resultat-title #{annonce.car.brand} #{annonce.car.model}
+                                        h3.resultat-title
+                                            a(href='/liste-annonces/annonce/'+annonce._id) #{annonce.car.brand} #{annonce.car.model}
                                         h4.resultat-subtitle #{annonce.car.details.version}
                                         ul
                                             li
