@@ -7,6 +7,7 @@ const createError = require('http-errors');
 const express = require('express');
 const app = express();
 const parser = require('body-parser');
+const favicon = require('serve-favicon');
 const logger = require('morgan');
 
 const database = require('./utils/db');
@@ -21,6 +22,7 @@ app.use(parser.json({limit: '50mb'}));
 app.use(parser.urlencoded({limit: '50mb', extended:true}));
 app.use(express.static( 'public'));
 app.set('view engine', 'pug');
+app.use(favicon(__dirname + '/public/img/favicon.png'));
 
 //ROUTES
 app.use('/api/car', car);
