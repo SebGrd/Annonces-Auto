@@ -231,19 +231,20 @@ function renderPreview(fields) {
     });
 }
 
+const fileToBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
+
 //get array of base64 img
-function getArrayOfBase64(){
+async function getArrayOfBase64(){
     let formData = getFormData(fields);
+    let imagesFiles = formData['car-images'];
     let imgArray = [];
-    for (let i = 0; i < formData['car-images'].length; i++) {
-        formData['car-images'].item(0).arrayBuffer()
-            .then(imgArrayBuffer => {
-                imgArray.push('data:image/jpeg;base64,' +
-                    btoa(
-                        new Uint8Array(imgArrayBuffer)
-                            .reduce((data,byte) => data + String.fromCharCode(byte), '')
-                    ))
-            })
+    for (let i = 0; i < imagesFiles.length; i++) {
+        imgArray.push(await fileToBase64(imagesFiles[i]));
     }
     return imgArray;
 }
@@ -251,46 +252,48 @@ function getArrayOfBase64(){
 addAnnonceForm.addEventListener('submit', event => {
     event.preventDefault();
     let formData = getFormData(fields);
-    let imgs = getArrayOfBase64();
     let headers = new Headers();
-    //@todo api kay
-    headers.append('Content-Type', 'application/json');
-    headers.append("x-api-key", 'd60efa2cf2c8a2fc2ab5508fa859d094')
-    fetch('/api/annonce', {
-        headers: headers,
-        method: 'POST',
-        body: JSON.stringify({
-            user: '5e66e43226bd4520ccf671ba', //@todo acutal user
-            content : formData['content'],
-            price: formData['price'],
-            images: imgs,
-            car: {
-                brand: formData['car-brand'],
-                model: formData['car-model'],
-                details: {
-                    version: formData['car-details-version'],
-                    color: formData['car-details-color'],
-                    places: formData['car-details-places'],
-                    doors: formData['car-details-doors'],
-                    km: formData['car-details-km'],
-                    energy: formData['car-details-energy'],
-                    productionYear: formData['car-details-productionYear'],
-                    transmission: formData['car-details-transmission'],
-                    hp: formData['car-details-hp'],
-                    cf: formData['car-details-cv'],
-                }
-            }
-        })
-    })
-        .then(r => {
-            if (r.status !== 200 && r.status !== 201){
-                alert(r.status + ' : ' + r.statusText)
-            } else{
-                alert('Annonce posté')
-            }
-            console.log(r);
+    headers.append('Content-Type', 'application/json'); //@todo api kay
+    headers.append("x-api-key", 'd60efa2cf2c8a2fc2ab5508fa859d094');
+    getArrayOfBase64().then( imgArray => {
 
+        fetch('/api/annonce', {
+            headers: headers,
+            method: 'POST',
+            body: JSON.stringify({
+                user: '5e66e43226bd4520ccf671ba', //@todo acutal user
+                content : formData['content'],
+                price: formData['price'],
+                images: imgArray,
+                car: {
+                    brand: formData['car-brand'],
+                    model: formData['car-model'],
+                    details: {
+                        version: formData['car-details-version'],
+                        color: formData['car-details-color'],
+                        places: formData['car-details-places'],
+                        doors: formData['car-details-doors'],
+                        km: formData['car-details-km'],
+                        energy: formData['car-details-energy'],
+                        productionYear: formData['car-details-productionYear'],
+                        transmission: formData['car-details-transmission'],
+                        hp: formData['car-details-hp'],
+                        cf: formData['car-details-cv'],
+                    }
+                }
+            })
         })
-        .catch(err => console.log(err));
+            .then(r => {
+                if (r.status !== 200 && r.status !== 201){
+                    alert(r.status + ' : ' + r.statusText)
+                } else{
+                    alert('Annonce posté')
+                }
+                console.log(r);
+
+            })
+            .catch(err => console.log(err));
+    });
+
 });
 
