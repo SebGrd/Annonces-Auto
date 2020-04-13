@@ -14,16 +14,36 @@ views.get('/', (req, res, next) => {
 //Liste annonces
 views.get('/liste-annonces', async (req, res) => {
 
+    console.log(req.query);
+    let searchObject = {
+        'car.brand' : req.query.brand? req.query.brand : '',
+        'car.model' : req.query.model? req.query.model: '',
+        'car.details.doors' : 5 //Fonctionne
+    };
+    database.annonceModel.find(searchObject, (err, docs) => {
+       if (err){
+           console.log(err)}
+       console.log(docs);
+    });
+    // let test = {
+    //     brand: 'Bugatti',
+    //     model: 'Veyron',
+    //     energy: 'Essence',
+    //     transmission: 'Manuelle',
+    //     ch: '141',
+    //     km: '5000'
+    // };
+
     await database.carModel.distinct('brand')
         .then(brands => {
-
             axios.get('/api/annonce')
                 .then( result => {
                     let annonces = result.data;
                     res.status(200);
                     res.render('liste-annonces', {
                         title: 'Liste des annonces',
-                        annonces: annonces
+                        annonces: annonces,
+                        brands: brands
                     });
                 })
                 .catch( err => {
