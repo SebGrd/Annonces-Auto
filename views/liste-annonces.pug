@@ -4,70 +4,77 @@ block content
         .container
             h1 Liste des annonces
             .row
-
-                .col-3.mb-5
+                .col-12.col-md-3.mb-5
                     .recherche-sidebar.border.p-2.rounded
-                        form(action='#')
+                        form(action='/liste-annonces' method='get')
                             .form-group
-                                label(for='marque') Marque
-                                select#marque.form-control(name='marque')
-                                    option(value='1') Citoën
-                                    option(value='2') Peugeot
-                                    option(value='3') KIA
-                                    option(value='4') Audi
-                                    option(value='5') Tesla
+                                label(for='brand') Marque
+                                select#brand.form-control(name='brand')
+                                    option(value='null') Choisissez une marque
+                                    each brand in brands
+                                        option(value=brand) #{brand}
                             .form-group
-                                label(for='energie') Energie
-                                select#energie.form-control(name='marqueVoiture')
-                                    option(value='1') Diesel
-                                    option(value='2') Essence
-                                    option(value='3') Electrique
-                                    option(value='4') GPL
-                                    option(value='5') Hydrogène
+                                label(for='brand') Modèle
+                                select#model.form-control(name='model' disabled)
+                                    option(value='null') Choisissez un modèle
+                            .form-group
+                                label(for='energy') Energie
+                                select#energy.form-control(name='energy')
+                                    option(value='null') Choisissez un type d'énergie
+                                    option(value='Diesel') Diesel
+                                    option(value='Essence') Essence
+                                    option(value='Electrique') Electrique
+                                    option(value='GPL') GPL
+                                    option(value='Autre') Autre
                             .form-group
                                 label Type de boite
                                 .form-check
-                                    input#boiteM.form-check-input(type='radio' name='typeBoite' value='Manuelle')
+                                    input#boiteM.form-check-input(type='radio' name='transmission' value='Manuelle')
                                     label.form-check-label(for='boiteM') Manuelle
                                 .form-check
-                                    input#boiteA.form-check-input(type='radio' name='typeBoite' value='Automatique')
+                                    input#boiteA.form-check-input(type='radio' name='transmission' value='Automatique')
                                     label.form-check-label(for='boiteA') Automatique
                             .form-group
                                 label(for='chevaux') Puissance DIN (min)
-                                input#chevaux.form-control-range(type='range' min='1' max='100' name='ch' value='50')
+                                    strong#chevaux-value.ml-2 0
+                                input#chevaux.form-control-range(type='range' min='0' max='499' name='ch' value='0')
                             .form-group
-                                label(for='portes') Nombre de portes
-                                select#portes.form-control(name='nbPortes')
-                                    option(value='3') 3
-                                    option(value='5') 5
+                                label(for='km') Kilométrage (max)
+                                input#km.form-control(type='number' min='0' max='1000000' name='km')
                             .d-flex.align-items-center.justify-content-center
                                 button.btn.btn-secondary(type='submit') Rechercher
 
-                .col-9.liste-resultat
-                    h2 #{annonces.length } résultats :
-                    each annonce in annonces
-                        .resultat
-                            .row
-                                .col-4
-                                    .resultat-img
-                                        img.img-fluid(src=annonce.images[0] alt='')
-                                .col-8
-                                    .resultat-content
-                                        h3.resultat-title
-                                            a(href='/liste-annonces/annonce/'+annonce._id) #{annonce.car.brand} #{annonce.car.model}
-                                        h4.resultat-subtitle #{annonce.car.details.version}
-                                        ul
-                                            li
-                                                i.fas.fa-gas-pump
-                                                | #{annonce.car.details.energy}
-                                            li
-                                                i.fas.fa-cogs
-                                                | #{annonce.car.details.transmission}
-                                            li
-                                                i.fas.fa-road
-                                                | #{annonce.car.details.km}
-                                            li
-                                                i.fas.fa-calendar-alt
-                                                | #{annonce.car.details.productionYear}
-                                        p.resultat-price
-                                            b #{annonce.price} €
+                .col-12.col-md-9.liste-resultat
+                    if (error)
+                        h2.mb-5 #{error}
+                    else
+                        h2 #{annonces.length } résultats :
+                        each annonce in annonces
+                            .resultat
+                                .row
+                                    .col-4
+                                        .resultat-img
+                                            img.img-fluid(src=annonce.images[0] alt='')
+                                    .col-8
+                                        .resultat-content
+                                            h3.resultat-title
+                                                a(href='/liste-annonces/annonce/'+annonce._id) #{annonce.car.brand} #{annonce.car.model}
+                                            h4.resultat-subtitle #{annonce.car.details.version}
+                                            ul
+                                                li
+                                                    i.fas.fa-gas-pump
+                                                    | #{annonce.car.details.energy}
+                                                li
+                                                    i.fas.fa-cogs
+                                                    | #{annonce.car.details.transmission}
+                                                li
+                                                    i.fas.fa-road
+                                                    | #{annonce.car.details.km}
+                                                li
+                                                    i.fas.fa-calendar-alt
+                                                    | #{annonce.car.details.productionYear}
+                                            p.resultat-price
+                                                b #{annonce.price} €
+
+block pageScript
+    script(src="/js/pages/listeAnnonce.js")

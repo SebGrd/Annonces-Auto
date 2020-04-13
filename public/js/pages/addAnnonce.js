@@ -157,8 +157,8 @@ document.getElementById('car-images').addEventListener('change', () => {
 });
 
 //BRAND
-const modelSelect = document.getElementById('car-model')
-const modelSelectWarn = document.getElementById('car-model-warn')
+const modelSelect = document.getElementById('car-model');
+const modelSelectWarn = document.getElementById('car-model-warn');
 document.getElementById('car-brand').addEventListener('change', (e) => {
     modelSelect.innerHTML = '<option value="null">Choisissez un modèle</option>';
     if (e.target.value === 'null'){
@@ -172,8 +172,8 @@ document.getElementById('car-brand').addEventListener('change', (e) => {
                         modelSelect.removeAttribute('disabled');
                         modelSelectWarn.style.display = 'none';
                         data.forEach(function(car){
-                            let option = document.createElement('option')
-                            option.setAttribute('value', car.model)
+                            let option = document.createElement('option');
+                            option.setAttribute('value', car.model);
                             option.innerText = car.model;
                             modelSelect.appendChild(option);
                         });

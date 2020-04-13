@@ -12,16 +12,37 @@ views.get('/', (req, res, next) => {
 });
 
 //Liste annonces
-views.get('/liste-annonces', (req, res) => {
-    axios.get('/api/annonce')
-        .then( result => {
-            annonces = result.data;
-            res.status(200);
-            res.render('liste-annonces', {title: 'Liste des annonces', annonces: annonces});
+views.get('/liste-annonces', async (req, res) => {
+
+    await database.carModel.distinct('brand')
+        .then(brands => {
+
+            axios.get('/api/annonce')
+                .then( result => {
+                    let annonces = result.data;
+                    res.status(200);
+                    res.render('liste-annonces', {
+                        title: 'Liste des annonces',
+                        annonces: annonces
+                    });
+                })
+                .catch( err => {
+                    if (err.response.status === 404) {
+                        res.status(404);
+                        res.render('liste-annonces', {
+                            title: 'Liste des annonces',
+                            error: 'Aucune annonce',
+                            brands: brands
+                        });
+                    } else {
+                        res.status(404);
+                        res.render('404', {title: '404'});
+                    }
+                });
         })
-        .catch( err => {
-            res.status(404);
-            res.render('404', {title: '404'});
+        .catch(err => {
+            res.status(500);
+            res.json({"message" : err.message});
         });
 });
 
