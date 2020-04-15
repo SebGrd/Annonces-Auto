@@ -14,25 +14,27 @@ views.get('/', (req, res, next) => {
 //Liste annonces
 views.get('/liste-annonces', async (req, res) => {
 
-    console.log(req.query);
+
+    if (!req.query.model){
+        req.query.model = 'null';
+    }
     let searchObject = {
-        'car.brand' : req.query.brand? req.query.brand : '',
-        'car.model' : req.query.model? req.query.model: '',
-        'car.details.doors' : 5 //Fonctionne
+        'car.brand' : req.query.brand === 'null' ? {$ne: 'null'} : req.query.brand,
+        'car.model' : req.query.model === 'null' ? {$ne: 'null'} : req.query.model,
+        'car.details.energy' : req.query.energy === 'null' ? {$ne: 'null'} : req.query.energy,
+        'car.details.transmission' : req.query.transmission === 'null' ? {$ne: 'null'} : req.query.transmission,
+        'car.details.hp' : req.query.ch === 0 ? {$ne: -1} : {$gt: req.query.ch},
+        'car.details.km' : req.query.km === 0 ? {$ne: -1} : {$lt: req.query.km},
     };
-    database.annonceModel.find(searchObject, (err, docs) => {
-       if (err){
-           console.log(err)}
-       console.log(docs);
-    });
-    // let test = {
-    //     brand: 'Bugatti',
-    //     model: 'Veyron',
-    //     energy: 'Essence',
-    //     transmission: 'Manuelle',
-    //     ch: '141',
-    //     km: '5000'
-    // };
+
+    const getSearched = () => {
+        database.annonceModel.find(searchObject, (err, docs) => {
+            if (err){
+                console.log(err)}
+            console.log(docs);
+        });
+    };
+
 
     await database.carModel.distinct('brand')
         .then(brands => {

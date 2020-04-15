@@ -29,7 +29,7 @@ block content
                             .form-group
                                 label Type de boite
                                 .form-check
-                                    input#boiteM.form-check-input(type='radio' name='transmission' value='Manuelle')
+                                    input#boiteM.form-check-input(type='radio' name='transmission' value='Manuelle' checked)
                                     label.form-check-label(for='boiteM') Manuelle
                                 .form-check
                                     input#boiteA.form-check-input(type='radio' name='transmission' value='Automatique')
@@ -40,7 +40,7 @@ block content
                                 input#chevaux.form-control-range(type='range' min='0' max='499' name='ch' value='0')
                             .form-group
                                 label(for='km') Kilométrage (max)
-                                input#km.form-control(type='number' min='0' max='1000000' name='km')
+                                input#km.form-control(type='number' min='0' max='1000000' name='km' value='0')
                             .d-flex.align-items-center.justify-content-center
                                 button.btn.btn-secondary(type='submit') Rechercher
 
