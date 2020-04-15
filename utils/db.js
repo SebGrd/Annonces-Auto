@@ -23,7 +23,7 @@ const Annonce = mongoose.model(
         },
         content: {
             type: String,
-            required: true
+            required: false
         },
         images: [{
             type: String

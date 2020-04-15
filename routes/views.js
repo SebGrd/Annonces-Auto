@@ -14,55 +14,74 @@ views.get('/', (req, res, next) => {
 //Liste annonces
 views.get('/liste-annonces', async (req, res) => {
 
-
-    if (!req.query.model){
-        req.query.model = 'null';
-    }
-    let searchObject = {
-        'car.brand' : req.query.brand === 'null' ? {$ne: 'null'} : req.query.brand,
-        'car.model' : req.query.model === 'null' ? {$ne: 'null'} : req.query.model,
-        'car.details.energy' : req.query.energy === 'null' ? {$ne: 'null'} : req.query.energy,
-        'car.details.transmission' : req.query.transmission === 'null' ? {$ne: 'null'} : req.query.transmission,
-        'car.details.hp' : req.query.ch === 0 ? {$ne: -1} : {$gt: req.query.ch},
-        'car.details.km' : req.query.km === 0 ? {$ne: -1} : {$lt: req.query.km},
-    };
-
-    const getSearched = () => {
-        database.annonceModel.find(searchObject, (err, docs) => {
-            if (err){
-                console.log(err)}
-            console.log(docs);
-        });
-    };
-
-
     await database.carModel.distinct('brand')
         .then(brands => {
-            axios.get('/api/annonce')
-                .then( result => {
-                    let annonces = result.data;
-                    res.status(200);
-                    res.render('liste-annonces', {
-                        title: 'Liste des annonces',
-                        annonces: annonces,
-                        brands: brands
-                    });
-                })
-                .catch( err => {
-                    if (err.response.status === 404) {
-                        res.status(404);
+
+            if (Object.keys(req.query).length !== 0){  // Si query params (/liste-annonces?...)
+                if (!req.query.model){
+                    req.query.model = 'null';
+                }
+                let searchObject = {
+                    'car.brand' : req.query.brand === 'null' ? {$ne: 'null'} : req.query.brand,
+                    'car.model' : req.query.model === 'null' ? {$ne: 'null'} : req.query.model,
+                    'car.details.energy' : req.query.energy === 'null' ? {$ne: 'null'} : req.query.energy,
+                    'car.details.transmission' : req.query.transmission === 'null' ? {$ne: 'null'} : req.query.transmission,
+                    'car.details.hp' : req.query.ch === 0 ? {$ne: -1} : {$gt: req.query.ch},
+                    'car.details.km' : req.query.km === '0' ? {$gt: '0'} : {$lt: req.query.km},
+                };
+                database.annonceModel.find(searchObject, (err, docs) => {
+                    if (err){
+                        console.log(err);
+                        res.status(500);
+                        res.json({"message" : err.message});
+                    }
+                    if (docs.length > 0){
+                        let annonces = docs;
+                        res.status(200);
                         res.render('liste-annonces', {
                             title: 'Liste des annonces',
-                            error: 'Aucune annonce',
+                            annonces: annonces,
                             brands: brands
                         });
                     } else {
                         res.status(404);
-                        res.render('404', {title: '404'});
+                        res.render('liste-annonces', {
+                            title: 'Liste des annonces',
+                            error: 'Aucune annonce correspondant à votre recherche.',
+                            brands: brands
+                        });
                     }
+
                 });
+            } else { // Si base url (/liste-annonces)
+                axios.get('/api/annonce')
+                    .then( result => {
+                        let annonces = result.data;
+                        res.status(200);
+                        res.render('liste-annonces', {
+                            title: 'Liste des annonces',
+                            annonces: annonces,
+                            brands: brands
+                        });
+                    })
+                    .catch( err => {
+                        if (err.response.status === 404) {
+                            res.status(404);
+                            res.render('liste-annonces', {
+                                title: 'Liste des annonces',
+                                error: 'Aucune annonce',
+                                brands: brands
+                            });
+                        } else {
+                            res.status(404);
+                            res.render('404', {title: '404'});
+                        }
+                    });
+            }
+
         })
         .catch(err => {
+            console.log(err);
             res.status(500);
             res.json({"message" : err.message});
         });
