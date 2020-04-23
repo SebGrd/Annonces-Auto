@@ -1,0 +1,42 @@
+extends pug-layout/_layout
+block content
+    .container
+        h1 #{title}
+        .row.text-center.mt-5
+            .col-6.border-right
+                h2 Se connecter
+                form
+                    .form-group
+                        input.form-control(type='text' name='username' autocomplete='username' placeholder='Nom d\'utilisateur')
+                    .form-group
+                        input.form-control(type='password' name='password' autocomplete='current-password' placeholder='Mot de passe')
+                    .form-group.text-right
+                        button.btn.btn-secondary(type='submit') Se connecter
+            .col-6
+                h2 S'inscrire
+                form
+                    .form-group
+                        input.form-control(type='text' name='username' autocomplete='username' placeholder='Nom d\'utilisateur')
+                    .form-group
+                        input.form-control(type='email' name='email' autocomplete='email' placeholder='Email')
+                    .form-group
+                        input.form-control(type='password' id="password" name='password' autocomplete='new-password' placeholder='Mot de passe')
+                    .form-group
+                        input.form-control(type='password' id="check-password" name='password-check' autocomplete='new-password' placeholder='Confirmer votre mot de passe')
+                    .form-group.text-right
+                        button.btn.btn-secondary(type='submit') S'inscrire
+
+
+
+block pageScript
+    script.
+        const newPass = document.getElementById('password');
+        const checkPass = document.getElementById('check-password');
+
+        checkPass.addEventListener('change', (e) => {
+            if (e.target.value === newPass.value){
+                e.target.style.border = '1px solid green';
+            } else{
+                e.target.style.border = '1px solid red';
+            }
+        });

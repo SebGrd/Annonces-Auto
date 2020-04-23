@@ -6,10 +6,18 @@ axios.defaults.proxy = {port: process.env.SERVER_PORT};
 
 
 //Home
-views.get('/', (req, res, next) => {
+views.get('/', (req, res) => {
     res.status(200);
     res.render('index', {title: 'Accueil'});
 });
+
+
+//Connexion
+views.get('/connexion', (req, res) => {
+    res.status(200);
+    res.render('connexion', {title: 'Connexion'})
+});
+
 
 //Liste annonces
 views.get('/liste-annonces', async (req, res) => {
