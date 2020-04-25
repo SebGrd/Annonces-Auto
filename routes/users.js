@@ -8,7 +8,7 @@ user.get('/', utils.apiRights, getUsers, (req, res, next) => {
    res.json(req.users);
 });
 
-user.post('/', utils.apiRights, postUsers, (req, res, next) => {
+user.post('/', postUsers, (req, res, next) => {
    res.status(201);
    res.json(req.user);
 });

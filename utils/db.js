@@ -99,26 +99,24 @@ const User = mongoose.model(
             type: String,
             required: true
         },
-        name: {
-            type: String,
-            required: true
-        },
-        surname: {
-            type: String,
-            required: true
-        },
         mail: {
             type: String,
             required: true
         },
-        phone: Number,
+        phone: {
+            type: Number,
+            required: false,
+            default: null
+        },
         professional: {
             type: Boolean,
+            required: false,
             default: false
         },
         zip: {
             type: Number,
-            required: true
+            required: false,
+            default: null
         },
         annonces: [{
             type: mongoose.Types.ObjectId,

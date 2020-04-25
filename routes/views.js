@@ -4,6 +4,8 @@ const axios = require('axios');
 const database = require('./../utils/db');
 axios.defaults.proxy = {port: process.env.SERVER_PORT};
 
+const jwt = require('jsonwebtoken');
+
 
 //Home
 views.get('/', (req, res) => {
