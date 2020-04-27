@@ -1,5 +1,6 @@
 //STEP BY STEP FORM
 let step = 0;
+const loader = document.getElementById('loader');
 const addAnnonceForm = document.getElementById('addAnnonce');
 const form = document.getElementsByClassName('form-step')[0];
 const formStep = form.getElementsByClassName('step');
@@ -141,8 +142,6 @@ previousStep.addEventListener('click', () => {
 });
 
 
-
-
 //IMAGE UPLOAD
 document.getElementById('car-images').addEventListener('change', () => {
     const input = document.getElementById('car-images');
@@ -193,7 +192,6 @@ document.getElementById('car-brand').addEventListener('change', (e) => {
     }
 
 });
-
 
 //Form data
 function getFormData(fields) {
@@ -256,6 +254,9 @@ async function getArrayOfBase64(){
 
 addAnnonceForm.addEventListener('submit', event => {
     event.preventDefault();
+
+    loader.style.display = 'flex';
+
     let formData = getFormData(fields);
     let headers = new Headers();
 
@@ -300,7 +301,11 @@ addAnnonceForm.addEventListener('submit', event => {
 
 
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                loader.style.display = 'none';
+                alert('Une erreur s\'est produite, merci de réessayer plus tard.')
+                console.log(err)
+            });
     });
 
 });

@@ -10151,6 +10151,24 @@ ul.aligned-items li {
   font-size: 14px;
 }
 
+#loader {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #5a5a5a5c;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+#loader .spinner-border {
+  width: 7rem;
+  height: 7rem;
+  font-size: 2em;
+}
+
 @media (max-width: 1199px) {
   .slider-search .recherche-home form .form-group {
     margin-bottom: 4px;

@@ -171,6 +171,9 @@ block content
                     .error-popup#step-error
                         p.mb-0 Remplir les champs suivants :
                         ul#fields-error.mb-0
+    #loader
+        .spinner-border.text-primary(role='status' style='width: 7rem; height: 7rem; font-size: 2em')
+            .sr-only Ajout de l'annonce en cours
 
 block pageScript
     script(src="/js/pages/addAnnonce.js")

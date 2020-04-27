@@ -23,3 +23,21 @@
     font-size: 14px;
   }
 }
+
+#loader{
+  display: none; //flex in JS
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #5a5a5a5c;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  .spinner-border{
+    width: 7rem;
+    height: 7rem;
+    font-size: 2em;
+  }
+}
