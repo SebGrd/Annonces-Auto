@@ -253,6 +253,7 @@ addAnnonceForm.addEventListener('submit', event => {
     event.preventDefault();
     let formData = getFormData(fields);
     let headers = new Headers();
+
     headers.append('Content-Type', 'application/json'); //@todo api kay
     headers.append("x-api-key", 'd60efa2cf2c8a2fc2ab5508fa859d094');
     getArrayOfBase64().then( imgArray => {
@@ -261,7 +262,7 @@ addAnnonceForm.addEventListener('submit', event => {
             headers: headers,
             method: 'POST',
             body: JSON.stringify({
-                user: '5e66e43226bd4520ccf671ba', //@todo acutal user
+                user: addAnnonceForm.dataset.user,
                 content : formData['content'],
                 price: formData['price'],
                 images: imgArray,
@@ -296,4 +297,3 @@ addAnnonceForm.addEventListener('submit', event => {
     });
 
 });
-

@@ -67,6 +67,7 @@ views.post('/login', async (req, res) => {
 
     });
 });
+
 views.get('/deconnexion', (req, res) => {
     if (req.logged){
         res.cookie('jwt', {maxAge: 0});
@@ -84,6 +85,7 @@ views.get('/mon-compte', utils.authenticate, (req, res) => {
     }
 
 });
+
 
 
 //Liste annonces
