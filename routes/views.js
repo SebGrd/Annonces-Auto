@@ -8,10 +8,19 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 axios.defaults.proxy = {port: process.env.SERVER_PORT};
 
+
+views.use(utils.authenticate);
 //Home
 views.get('/', (req, res) => {
-    res.status(200);
-    res.render('index', {title: 'Accueil'});
+    if (req.logged === true){
+        res.status(200).render('index', {
+            title: 'Accueil logged',
+            logged: true,
+            userData: req.userData
+        });
+    } else {
+        res.status(200).render('index', {title: 'Accueil'});
+    }
 });
 
 
@@ -23,8 +32,6 @@ views.get('/connexion', (req, res) => {
 
 views.post('/login', async (req, res) => {
     await database.userModel.findOne({mail: req.body.mail}, (err, doc) => {
-        console.log(req.body);
-        console.log(doc);
         if (err){
             console.log(err);
             return res.status(500).json({"message" : err.message});
@@ -59,6 +66,14 @@ views.post('/login', async (req, res) => {
             })
 
     });
+});
+views.get('/deconnexion', (req, res) => {
+    if (req.logged){
+        res.cookie('jwt', {maxAge: 0});
+        res.status(301).redirect('/');
+    } else {
+        res.status(301).redirect('/');
+    }
 });
 
 views.get('/mon-compte', utils.authenticate, (req, res) => {
@@ -170,16 +185,25 @@ views.get('/liste-annonces/annonce/:id', (req, res) => {
 
 //Ajouter annonce
 views.get('/ajouter-une-annonce', async (req, res) => {
+    if (req.logged === true){
+        await database.carModel.distinct('brand')
+            .then(brands => {
+                res.status(200);
+                res.render('addAnnonce', {
+                    title: 'Ajouter une annonce',
+                    brands: brands,
+                    logged: true,
+                    userData: req.userData
+                });
+            })
+            .catch(err => {
+                res.status(500);
+                res.json({"message" : err.message});
+            });
+    } else {
+        res.status(301).redirect('/connexion');
+    }
 
-    await database.carModel.distinct('brand')
-        .then(brands => {
-            res.status(200);
-            res.render('addAnnonce', {title: 'Ajouter une annonce', brands: brands});
-        })
-        .catch(err => {
-            res.status(500);
-            res.json({"message" : err.message});
-        });
 
 
 });
