@@ -1,25 +1,26 @@
-const registerSubmit = document.getElementById('register-submit');
 const newPass = document.getElementById('password');
 const checkPass = document.getElementById('check-password');
 const registerForm = document.getElementById('register');
 const registerMail = document.getElementById('register-mail');
 const registerError = document.getElementById('register-error');
+const registerSubmit = document.getElementById('register-submit');
+const loginForm = document.getElementById('login');
+const loginMail = document.getElementById('login-mail');
+const loginError = document.getElementById('login-error');
+const loginSubmit = document.getElementById('login-submit');
 
 const checkPassword = (first, second) => {
     return first === second;
 };
-
 const checkFormCompletion = (form) => {
     let inputNodeList = form.querySelectorAll('input');
     let inputArray = Array.prototype.slice.call(inputNodeList);
     return inputArray.every(field => field.value.length > 0)
 };
-
 const checkEmail = (email) => {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
 };
-
 //Password err
 checkPass.addEventListener('change', (e) => {
     if (checkPassword(e.target.value, newPass.value)){ //if pass same
@@ -29,10 +30,9 @@ checkPass.addEventListener('change', (e) => {
         e.target.style.border = '1px solid red';
     }
 });
-
-registerSubmit.addEventListener('click', e => {
+//Register Sumbit
+registerForm.addEventListener('submit', e => {
     e.preventDefault();
-
     if (checkFormCompletion(registerForm) && checkEmail(registerMail.value)){
         registerError.innerText = '';
 
@@ -44,7 +44,6 @@ registerSubmit.addEventListener('click', e => {
                     newUser[key] = value;
                 }
             });
-
             let headers = new Headers();
             headers.append('Content-Type', 'application/json');
             fetch('/api/user', {
@@ -53,21 +52,60 @@ registerSubmit.addEventListener('click', e => {
                 body: JSON.stringify(newUser)
             })
                 .then(data => {
-                    console.log(data);
-                    window.location.href = '/';
+                    if (data.status === 500){
+                        data.json().then(res => {
+                            if (res.code === 11000){
+                                registerError.innerText = 'Le nom d\'utilisateur ou l\'email est déjà utilisé.'
+                            } else {
+                                registerError.innerText = 'Une erreur s\'est produite lors de la création du compte.'
+                            }
+                        })
+                    } else {
+                        data.json().then(res => {
+                            alert('Compte créé')//@todo autoconnect avec le token
+                            // window.location.href = '/';
+                        })
+                    }
+
                 })
                 .catch(err => console.log(err))
-                .then(data => console.log(data))
-
-
-
         } else {
             registerError.innerText = 'Les mots de passe ne correspondent pas.'
         }
-
     } else {
         registerError.innerText = 'Tous les champs ne sont pas correctement remplis.'
     }
-
-
 });
+//login submit
+// loginForm.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     if (checkFormCompletion(loginForm) && checkEmail(loginMail.value)){
+//         loginError.innerText = '';
+//
+//         let formData = new FormData(loginForm);
+//         let loginUser = {};
+//         formData.forEach( (value, key) => {
+//             loginUser[key] = value;
+//         });
+//         console.log(loginUser);
+//
+//         let headers = new Headers();
+//         headers.append('Content-Type', 'application/json');
+//         fetch('/login', {
+//             headers: headers,
+//             method: 'POST',
+//             body: JSON.stringify(loginUser)
+//         })
+//             .then(res => {
+//                 res.json().then(finalRes => {
+//                     console.log(finalRes.message)
+//                     localStorage.jwt = finalRes.jwt //@todo deconnect = suppr local storage
+//                     // window.location.href = '/';
+//                 })
+//                     .catch(finalErr => console.log(finalErr));
+//             })
+//             .catch(err => console.log(err))
+//     } else {
+//         loginError.innerText = 'Tous les champs ne sont pas correctement remplis.'
+//     }
+// });

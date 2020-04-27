@@ -33,9 +33,14 @@ exports.postUsers = (req, res, next) => {
                         next();
                     })
                     .catch((err) => {
-                        console.log(err);
-                        res.status(500);
-                        res.json({"message": "Internal server error"});
+                        if (err.code === 11000){
+                            res.status(500);
+                            res.json({"message": "Duplicated value", "code": err.code});
+                        } else {
+                            console.log(err);
+                            res.status(500);
+                            res.json({"message": err.message});
+                        }
                     });
 
             })

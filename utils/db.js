@@ -93,7 +93,8 @@ const User = mongoose.model(
     {
         username: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
         password: {
             type: String,
@@ -101,12 +102,13 @@ const User = mongoose.model(
         },
         mail: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
         phone: {
             type: Number,
             required: false,
-            default: null
+            default: null,
         },
         professional: {
             type: Boolean,

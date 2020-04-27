@@ -5,13 +5,15 @@ block content
         .row.text-center.mt-5
             .col-6.border-right
                 h2 Se connecter
-                form#login(method='#')
+                form#login(method='POST' action="/login")
                     .form-group
-                        input.form-control(type='text' name='username' autocomplete='username' placeholder='Nom d\'utilisateur' required)
+                        input#login-mail.form-control(type='text' name='mail' autocomplete='email' placeholder='Email' required)
                     .form-group
                         input.form-control(type='password' name='password' autocomplete='current-password' placeholder='Mot de passe' required)
                     .form-group.text-right
-                        button.btn.btn-secondary(type='submit') Se connecter
+                        button#login-submit.btn.btn-secondary(type='submit') Se connecter
+                    .form-group
+                        small#login-error.text-danger
             .col-6
                 h2 S'inscrire
                 form#register

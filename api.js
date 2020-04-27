@@ -7,6 +7,7 @@ const createError = require('http-errors');
 const express = require('express');
 const app = express();
 const parser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 
@@ -18,6 +19,7 @@ const user = require('./routes/users');
 const views = require('./routes/views');
 
 app.use(logger('dev'));
+app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(parser.json({limit: '50mb'}));
 app.use(parser.urlencoded({limit: '50mb', extended:true}));
 app.use(express.static( 'public'));

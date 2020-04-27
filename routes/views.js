@@ -1,11 +1,12 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const views = express.Router();
 const axios = require('axios');
 const database = require('./../utils/db');
-axios.defaults.proxy = {port: process.env.SERVER_PORT};
-
+const utils = require('./../utils/utils');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+axios.defaults.proxy = {port: process.env.SERVER_PORT};
 
 //Home
 views.get('/', (req, res) => {
@@ -18,6 +19,55 @@ views.get('/', (req, res) => {
 views.get('/connexion', (req, res) => {
     res.status(200);
     res.render('connexion', {title: 'Connexion'})
+});
+
+views.post('/login', async (req, res) => {
+    await database.userModel.findOne({mail: req.body.mail}, (err, doc) => {
+        console.log(req.body);
+        console.log(doc);
+        if (err){
+            console.log(err);
+            return res.status(500).json({"message" : err.message});
+        }
+        if (doc === null) return res.status(404).redirect('/connexion?err=Utilisateur%20introuvable');
+
+        bcrypt.compare(req.body.password, doc.password)
+            .then(passCorrect => {
+                if (passCorrect){
+                    const accessToken = jwt.sign({
+                        _id: doc._id,
+                        username: doc.username,
+                        mail: doc.mail,
+                        professional: doc.professional
+                    }, process.env.JWT_SECRET);
+
+                    const options = {
+                        maxAge: 1000 * 60 * 60, //1heure
+                        httpOnly: true,
+                        signed: true
+                    }
+                    res.cookie('jwt', accessToken, options)
+
+                    res.status(200).redirect('/')
+                } else {
+                    res.status(401).redirect('/connexion?err=Mauvais%20identifiants');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({"message" : "Server error"});
+            })
+
+    });
+});
+
+views.get('/mon-compte', utils.authenticate, (req, res) => {
+    if (req.logged === true){
+        res.status(200).json({"message": "Mon compte : " + req.userData.username})
+    } else{
+        res.status(401).json({"message": "Vous n'êtes pas connecté."})
+    }
+
 });
 
 
