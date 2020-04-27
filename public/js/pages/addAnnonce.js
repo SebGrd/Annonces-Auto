@@ -78,6 +78,11 @@ function translateDictionnary(id){
     return fieldIdDictionary[id];
 }
 
+addAnnonceForm.addEventListener('keydown', (e) => {
+    if (e.keyCode === 13){
+        e.preventDefault();
+    }
+})
 
 nextStep.addEventListener('click', () => {
     const fieldsError = checkFieldStep('step-'+step);
@@ -288,9 +293,11 @@ addAnnonceForm.addEventListener('submit', event => {
                 if (r.status !== 200 && r.status !== 201){
                     alert(r.status + ' : ' + r.statusText)
                 } else{
-                    alert('Annonce posté')
+                    r.json().then(json => {
+                        window.location.href = "/liste-annonces/annonce/"+json.annonce._id
+                    })
                 }
-                console.log(r);
+
 
             })
             .catch(err => console.log(err));
