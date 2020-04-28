@@ -18,7 +18,7 @@ annonce.put('/:id', utils.apiRights, updateAnnonce, (req, res, next) => {
    res.json({"message": "annonce updated", "modifs": req.modifs});
 });
 
-annonce.delete('/:id', utils.apiRights, deleteAnnonce, (req, res, next) => {
+annonce.delete('/:id', utils.authenticate, deleteAnnonce, (req, res, next) => {
    res.status(200);
    res.json({"message": "annonce deleted"});
 });

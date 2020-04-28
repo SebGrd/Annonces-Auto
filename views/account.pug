@@ -1,0 +1,94 @@
+extends pug-layout/_layout
+block content
+    .container
+        h1 Mon compte
+        ul#account.nav.nav-tabs(role='tablist')
+            li.nav-item
+                a#profil-tab.nav-link.active(data-toggle='tab' href="#profil" role="tab" aria-controls="profil" aria-selected="true") Mon profil
+            li.nav-item
+                a#annonces-tab.nav-link(data-toggle='tab' href="#annonces" role="tab" aria-controls="annonces" aria-selected="false") Mes annonces
+        #account-content.tab-content
+            #profil.tab-pane.fade.show.active(role='tabpanel' aria-labelledby="profil-tab")
+                h2.mt-3 Mon profil
+                ul
+                    li #{user.username}
+                    li #{user.mail}
+                    li #{user.zip}
+                    li #{user.phone}
+                    li #{user.professionnal}
+                pre #{JSON.stringify(userData)}
+            #annonces.tab-pane.fade(role='tabpanel' aria-labelledby="annonces-tab")
+                h2.mt-3 Mes annonces
+                ul.list-group.liste-resultat
+                    each annonce in annonces
+                        li.list-group-item.resultat
+                            .row
+                                .col-11
+                                    .row
+                                        .col-4
+                                            .resultat-img
+                                                img.img-fluid(src=annonce.images[0])
+                                        .col-8.resultat-content
+                                            h3.resultat-title
+                                                a(href='/liste-annonces/annonce/'+annonce._id) #{annonce.car.brand} #{annonce.car.model}
+                                            h4.resultat-subtitle #{annonce.car.details.version}
+                                            ul
+                                                li
+                                                    i.fas.fa-gas-pump
+                                                    | #{annonce.car.details.energy}
+                                                li
+                                                    i.fas.fa-cogs
+                                                    | #{annonce.car.details.transmission}
+                                                li
+                                                    i.fas.fa-road
+                                                    | #{annonce.car.details.km} km
+                                                li
+                                                    i.fas.fa-calendar-alt
+                                                    | #{annonce.car.details.productionYear}
+                                                li
+                                                    i.fas.fa-users
+                                                    | #{annonce.car.details.places} places
+                                                li
+                                                    i.fas.fa-tachometer-alt
+                                                    | #{annonce.car.details.hp} ch
+                                            .resultat-price
+                                                b #{annonce.price} €
+                                .col-1.d-flex.justify-content-center.align-items-start
+                                    .btn-group-vertical
+                                        a.btn.btn-primary(href='/liste-annonces/annonce/'+annonce._id)
+                                            i.fas.fa-eye
+                                        button.delete-annonce.btn.btn-danger(data-id=annonce._id)
+                                            i.fas.fa-trash-alt
+
+
+block pageScript
+    script.
+        $('#account a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+
+
+        document.querySelectorAll('.delete-annonce').forEach(el => {
+            el.addEventListener('click', e => {
+                let annonceId = el.dataset.id;
+                if (window.confirm("Êtes-sur de supprimer cette annonce ?")) {
+                    fetch('/api/annonce/' + annonceId, {
+                        method: 'DELETE'
+                    }).then( res => {
+                        if (res.status === 200){
+                            alert('Supprimé')
+                            el.closest('.resultat').remove();
+                        } else {
+                            alert('Une erreur s\'est produite lors de la suppréssion de l\'annonce.')
+                        }
+                    })
+                    .catch( err => {
+                        console.log(err);
+                        alert('Une erreur s\'est produite lors de la suppréssion de l\'annonce.')
+                    })
+                }
+            })
+        })
+
+

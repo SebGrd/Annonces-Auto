@@ -3,129 +3,119 @@ const clc = require('cli-color');
 const logOk = clc.green.bold;
 const logErr = clc.red.bold;
 
-
-const Car = mongoose.model(
-    'Car',
-    {
-        brand: String,
-        model: String
-    }
-);
+const carSchema = new mongoose.Schema({
+    brand: String,
+    model: String
+})
+const Car = mongoose.model('Car', carSchema);
 exports.carModel = Car;
 
-const Annonce = mongoose.model(
-    'Annonce',
-    {
-        user: {
-            type: mongoose.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
-        content: {
+const annonceSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    content: {
+        type: String,
+        required: false
+    },
+    images: [{
+        type: String
+    }],
+    price: {
+        type: Number,
+        required: true
+    },
+    car: {
+        brand: {
             type: String,
-            required: false
-        },
-        images: [{
-            type: String
-        }],
-        price: {
-            type: Number,
             required: true
         },
-        car: {
-            brand: {
+        model: {
+            type: String,
+            required: true
+        },
+        details: {
+            version: {
                 type: String,
                 required: true
             },
-            model: {
+            color: {
                 type: String,
                 required: true
             },
-            details: {
-                version: {
-                    type: String,
-                    required: true
-                },
-                color: {
-                    type: String,
-                    required: true
-                },
-                places: {
-                    type: Number,
-                    required: true
-                },
-                doors: {
-                    type: Number,
-                    required: true
-                },
-                km: {
-                    type: Number,
-                    required: true
-                },
-                energy: {
-                    type: String,
-                    required: true
-                },
-                productionYear: {
-                    type: Number,
-                    required: true
-                },
-                transmission: {
-                    type: String,
-                    required: true
-                },
-                hp: {
-                    type: Number,
-                    required: true
-                },
-                cf: {
-                    type: String,
-                    required: true
-                }
+            places: {
+                type: Number,
+                required: true
+            },
+            doors: {
+                type: Number,
+                required: true
+            },
+            km: {
+                type: Number,
+                required: true
+            },
+            energy: {
+                type: String,
+                required: true
+            },
+            productionYear: {
+                type: Number,
+                required: true
+            },
+            transmission: {
+                type: String,
+                required: true
+            },
+            hp: {
+                type: Number,
+                required: true
+            },
+            cf: {
+                type: String,
+                required: true
             }
         }
     }
-);
+});
+const Annonce = mongoose.model('Annonce', annonceSchema);
 exports.annonceModel = Annonce;
 
-const User = mongoose.model(
-    'User',
-    {
-        username: {
-            type: String,
-            required: true,
-            unique: true
-        },
-        password: {
-            type: String,
-            required: true
-        },
-        mail: {
-            type: String,
-            required: true,
-            unique: true
-        },
-        phone: {
-            type: Number,
-            required: false,
-            default: null,
-        },
-        professional: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-        zip: {
-            type: Number,
-            required: false,
-            default: null
-        },
-        annonces: [{
-            type: mongoose.Types.ObjectId,
-            ref: 'Annonce'
-        }]
-    }
-);
+const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    mail: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    phone: {
+        type: Number,
+        required: false,
+        default: null,
+    },
+    professional: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    zip: {
+        type: Number,
+        required: false,
+        default: null
+    },
+    annonces: [annonceSchema]
+});
+const User = mongoose.model('User', userSchema);
 exports.userModel = User;
 
 
