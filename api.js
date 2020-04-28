@@ -32,6 +32,19 @@ app.use('/api/annonce', annonce);
 app.use('/api/user', user);
 app.use('/', views);
 
+//404
+app.use( (req, res) => {
+    if (req.logged === true){
+        res.status(404).render('404', {
+            title: '404',
+            logged: true,
+            userData: req.userData
+        });
+    } else {
+        res.status(404).render('404', {title: '404'});
+    }
+});
+
 database.connect();
 
 
