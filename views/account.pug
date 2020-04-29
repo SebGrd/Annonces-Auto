@@ -10,13 +10,19 @@ block content
         #account-content.tab-content
             #profil.tab-pane.fade.show.active(role='tabpanel' aria-labelledby="profil-tab")
                 h2.mt-3 Mon profil
-                ul
-                    li #{user.username}
-                    li #{user.mail}
-                    li #{user.zip}
-                    li #{user.phone}
-                    li #{user.professionnal}
-                pre #{JSON.stringify(userData)}
+                .row
+                    .col-2
+                        .border.p-3
+                            i.fa.fa-user(style='font-size: 144px;')
+                    .col-10
+                        p Utilisateur :
+                            b  #{user.username}
+                        p Email :
+                            b  #{user.mail}
+                        p Annonces postées :
+                            b  #{annonces.length}
+                small.d-block.mt-5.mb-3 #{60-Math.round((new Date() - new Date(userData.iat*1000))/1000/60)} mins de session restante
+
             #annonces.tab-pane.fade(role='tabpanel' aria-labelledby="annonces-tab")
                 h2.mt-3 Mes annonces
                 ul.list-group.liste-resultat
