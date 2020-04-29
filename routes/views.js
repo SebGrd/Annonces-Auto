@@ -119,6 +119,18 @@ views.get('/mon-compte', utils.authenticate, async (req, res) => {
     }
 });
 
+views.get('/calculer-les-chevaux-fiscaux-de-mon-vehicule', (req, res) => {
+    if (req.logged === true) {
+        res.status(200).render('calculPuissanceFiscale', {
+            title: 'Calculer les chevaux fiscaux de mon véhicule',
+            logged: true,
+            userData: req.userData
+        });
+    } else {
+        res.status(200).render('index', {title: 'Calculer les chevaux fiscaux de mon véhicule'});
+    }
+});
+
 
 //Liste annonces
 views.get('/liste-annonces', async (req, res) => {

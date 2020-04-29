@@ -24,11 +24,7 @@ header
                             a.has-child(href='#') Annonces
                             ul.nav-dropdown
                                 li
-                                    a(href='#') Véhicule Diesel
-                                li
-                                    a(href='#') Véhicule Essence
-                                li
-                                    a(href='#') Véhicule Electrique
+                                    a(href='/liste-annonces?brand=null&energy=Electrique&transmission=Automatique&ch=0&km=0') Véhicule Electrique
                                 li.separated
                                     a.font-weight-bold(href='/liste-annonces') Toutes les annonces
                         li.level-1
@@ -37,7 +33,7 @@ header
                                 li
                                     a.font-weight-bold(href='/ajouter-une-annonce') Déposer une annonce
                                 li.separated
-                                    a(href='#') Calculer les chevaux fiscaux de son véhicule
+                                    a(href='/calculer-les-chevaux-fiscaux-de-mon-vehicule') Calculer les chevaux fiscaux de son véhicule
                                 li
                                     a(href='#') A quel Crit&apos;air mon véhicule est-il éligible ?
                 if (logged === true)

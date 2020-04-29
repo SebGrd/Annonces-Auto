@@ -1,0 +1,38 @@
+extends pug-layout/_layout
+block content
+    .container
+        h1 Calculer les chevaux fiscaux de son véhicule
+        p L'outil ci-dessous vous permet de calculer la puissance fiscale de votre véhicule (CV).
+        | Cette information est nécéssaire lors de l'ajout de votre annonce sur notre site.
+        form.d-flex.justify-content-start.align-items-center.my-5
+            div.d-flex.align-items-center.justify-content-start
+                input#a(type='number' name='ch' min='0' placeholder='Chevaux dynamique')
+                label.m-0.ml-1 ch
+            b.mx-3 +
+            div.d-flex.align-items-center.justify-content-start
+                input#b(type='number' name='grkm' min='0' placeholder='Emission de CO2')
+                label.m-0.ml-1 gr/km
+            b.mx-3 =
+            span
+                span#c 0
+                b.ml-1 cv
+
+    script.
+        const a = document.getElementById('a');
+        const b = document.getElementById('b');
+        const c = document.getElementById('c');
+
+        const calcCv = (ch, co2) => {
+            return Math.round((co2/45) + (ch/40)*1.6);
+        }
+
+        const updateResult = (el, value) => {
+            el.innerText = value;
+        }
+
+        a.addEventListener('change', () => {
+            updateResult(c, calcCv(a.value,b.value));
+        })
+        b.addEventListener('change', () => {
+            updateResult(c, calcCv(a.value, b.value));
+        })
