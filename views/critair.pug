@@ -1,0 +1,43 @@
+extends pug-layout/_layout
+block content
+    .container
+        h1 Connaitre son eligibilité CRIT'air
+        p Le certificat est un autocollant rond, à apposer de façon visible sur son véhicule. Il s’agit d’un document sécurisé.
+            | Il existe 6 types de certificats différents.
+            | Chaque certificat correspond à une classe de véhicules définie en fonction des émissions de polluants atmosphériques.
+        .row
+            .col-6
+                form#critair-form
+                    .form-group
+                        select#type.form-control(name='type')
+                            option(value="voiture") Voiture
+                            option(value="utilitaire") Véhicule utilitaire léger
+                            option(value="poidLourd") Poid lourd
+                    .form-group
+                        select#energie.form-control(name='energie')
+                            option(value='diesel') Diesel
+                            option(value='essence') Essence
+                            option(value='gaz') Gaz
+                            option(value='hybride') Hybride
+                            option(value='electrique') Eléctrique
+                    .form-group
+                        select#norme.form-control(name='norme')
+                            option(value='euro1') EURO 1
+                            option(value='euro2') EURO 2
+                            option(value='euro3') EURO 3
+                            option(value='euro4') EURO 4
+                            option(value='euro5') EURO 5
+                            option(value='euro6') EURO 6
+                            option(value='aucune') Aucune
+                    .form-group
+                        button#check-btn.btn.btn-primary(type='button') Voir mon éligibilité
+                b#result-info.d-block.mb-5
+
+            .col-6.d-flex.justify-content-center.align-items-start
+                img#stamp.img-fluid(src='' alt='')
+
+block pageScript
+    script(src="/js/pages/critair.js")
+
+
+
