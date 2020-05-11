@@ -113,7 +113,6 @@ views.get('/mon-compte', utils.authenticate, async (req, res) => {
         });
 
 
-
     } else {
         res.status(401).redirect('/connexion');
     }
@@ -305,21 +304,43 @@ views.get('/liste-annonces', async (req, res) => {
 views.get('/liste-annonces/annonce/:id', async (req, res) => {
     let carData = {};
     await axios.get('/api/annonce/?id=' + req.params.id,)
-        .then(result => carData = result.data)
-        .catch(() => res.status(404).render('404', {title: '404'}));
+        .then(result => {
+            carData = result.data;
+            axios.get('/api/user/' + carData.user, {
+                headers: {
+                    'x-api-key': process.env.API_KEY,
+                }
+            })
+                .then(user => {
+                    if (req.logged === true) {
+                        res.status(200);
+                        res.render('single-annonce', {
+                            title: carData.car.brand + ' ' + carData.car.model,
+                            annonce: carData,
+                            seller: {
+                                mail: user.data.mail,
+                                username: user.data.username
+                            },
+                            logged: true,
+                            userData: req.userData
+                        });
+                    } else {
+                        res.status(200);
+                        res.render('single-annonce', {
+                            title: carData.car.brand + ' ' + carData.car.model,
+                            annonce: carData,
+                            seller: {
+                                mail: user.data.mail,
+                                username: user.data.username
+                            },
+                        });
+                    }
 
-    if (req.logged === true) {
-        res.status(200);
-        res.render('single-annonce', {
-            title: carData.car.brand + ' ' + carData.car.model,
-            annonce: carData,
-            logged: true,
-            userData: req.userData
-        });
-    } else {
-        res.status(200);
-        res.render('single-annonce', {title: carData.car.brand + ' ' + carData.car.model, annonce: carData});
-    }
+                })
+                .catch(() => res.status(500).json({'message': 'Internal server error (500)'}));
+            console.log(carData);
+        })
+        .catch(() => res.status(404).render('404', {title: '404'}));
 });
 
 

@@ -1,11 +1,15 @@
 const express = require('express');
 const user = express.Router();
 const utils = require('../utils/utils');
-const { getUsers, postUsers, deleteUsers, updateUsers } = require('../middlewares/users');
+const { getUsers, getSingleUser, postUsers, deleteUsers, updateUsers } = require('../middlewares/users');
 
 user.get('/', utils.apiRights, getUsers, (req, res, next) => {
    res.status(200);
    res.json(req.users);
+});
+
+user.get('/:id', utils.apiRights, getSingleUser, (req, res) => {
+   res.status(200).json(req.user)
 });
 
 user.post('/', postUsers, (req, res, next) => {

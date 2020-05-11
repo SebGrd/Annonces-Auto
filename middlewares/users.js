@@ -20,6 +20,22 @@ exports.getUsers = (req, res, next) => {
         });
 };
 
+exports.getSingleUser = (req, res, next) => {
+    database.userModel.findOne({_id: req.params.id})
+        .then( user => {
+            if (user) {
+                req.user = user
+                next()
+            } else {
+                res.status(404).json({"message": "No user found"})
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(500).json({"error": "Internal server error"})
+        });
+}
+
 exports.postUsers = (req, res, next) => {
     if (req.body.password){
         bcrypt.hash(req.body.password, 10)

@@ -76,36 +76,3 @@ registerForm.addEventListener('submit', e => {
         registerError.innerText = 'Tous les champs ne sont pas correctement remplis.'
     }
 });
-//login submit
-// loginForm.addEventListener('submit', (e) => {
-//     e.preventDefault();
-//     if (checkFormCompletion(loginForm) && checkEmail(loginMail.value)){
-//         loginError.innerText = '';
-//
-//         let formData = new FormData(loginForm);
-//         let loginUser = {};
-//         formData.forEach( (value, key) => {
-//             loginUser[key] = value;
-//         });
-//         console.log(loginUser);
-//
-//         let headers = new Headers();
-//         headers.append('Content-Type', 'application/json');
-//         fetch('/login', {
-//             headers: headers,
-//             method: 'POST',
-//             body: JSON.stringify(loginUser)
-//         })
-//             .then(res => {
-//                 res.json().then(finalRes => {
-//                     console.log(finalRes.message)
-//                     localStorage.jwt = finalRes.jwt //@todo deconnect = suppr local storage
-//                     // window.location.href = '/';
-//                 })
-//                     .catch(finalErr => console.log(finalErr));
-//             })
-//             .catch(err => console.log(err))
-//     } else {
-//         loginError.innerText = 'Tous les champs ne sont pas correctement remplis.'
-//     }
-// });

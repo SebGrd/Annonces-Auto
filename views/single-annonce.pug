@@ -12,8 +12,8 @@ block content
                             h1.card-title.mb-0.h3 #{annonce.car.brand} #{annonce.car.model}
                             h2.card-subtitle.h6.text-muted  #{annonce.car.details.version}
                             p.card-text.h1.my-4 #{annonce.price} €
-                            p Vendeur : #{annonce.user}
-                            a.btn.btn-primary.w-100(href='#') Contactez le vendeur
+                            p Vendeur : #{seller.username}
+                            a.btn.btn-primary.w-100(href='mailto:'+seller.mail+'?subject=Annonces Auto - '+annonce.car.brand + ' ' + annonce.car.model+' - Votre annonce m%27interresse' target='_blank') Contactez le vendeur
 
             .row
                 .col-8
